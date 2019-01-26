@@ -1,0 +1,64 @@
+$buttonSize: 55px;
+
+.navigation-wrapper {
+  position: fixed;
+  left: calc(50% - 25px);
+  bottom: 100px;
+  .navigation-button {
+    position: absolute;
+    z-index: 15;
+    width: $buttonSize;
+    height: $buttonSize;
+    background-color: steelblue;
+    border: 3px solid #122f92;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    > button {
+      width: $buttonSize - 15px;
+      height: $buttonSize - 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #395063;
+      border: 1px solid black;
+      border-radius: 50px;
+      outline: 0;
+      transition: all 0.5s;
+      span {
+        font-size: 15px;
+      }
+    }
+  }
+  .navigation-button-raid {
+    width: $buttonSize - 20px;
+    height: $buttonSize - 20px;
+    background-color: #395063;
+    border-radius: 40px;
+    position: absolute;
+    z-index: 9;
+    transition: all 0.5s;
+    left: 15px;
+    top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: 0;
+    border: none;
+  }
+  &.active {
+    .navigation-button {
+      background-color: white;
+
+      button {
+        width: 40px;
+        height: 40px;
+      }
+    }
+    .navigation-button-raid {
+      transform: translateX(-50px) translateY(-45px);
+    }
+  }
+}

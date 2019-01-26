@@ -1,0 +1,112 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, del,small, strike, strong, sub, sup, tt, var,
+ol, ul, li,fieldset, form, label, legend, article, aside, canvas,figure, figcaption, footer, header, hgroup, 
+menu, nav,section, summary,time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/** RESET END */
+
+h2 {
+  font-size: 2em;
+  margin: 1em;
+}
+
+.raid-container li {
+  border: 1px solid black;
+  box-shadow: 1px 6px 2px #a0a0a0;
+  display: flex;
+  min-height: 120px;
+  margin: 0 auto;
+  margin-bottom: 45px;
+  width: 90%;
+  position: relative;
+  
+  & > div {
+    width: 50%;
+  }
+
+  button.gym-btn-more-info {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    margin-bottom: -17px;
+    width: 100px;
+    height: 40px;
+    background-color: steelblue;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0px 5px 7px 0px #a0a0a0;
+  }
+
+  .raid-logo img {
+    width: 50%;
+    height: auto;
+  }
+
+}
+
+
+.App {
+  text-align: center;
+  max-width: 400px;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
