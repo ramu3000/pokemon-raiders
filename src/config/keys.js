@@ -1,7 +1,7 @@
 console.log(process.env.NODE_ENV);
 
-if (process.env.NODE_ENV === "production") {
-  module.exports = require("./prod");
-} else {
+if (window.location.href.includes("localhost")) {
   module.exports = require("./dev");
+} else {
+  module.exports = require("./prod");
 }
