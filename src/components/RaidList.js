@@ -4,12 +4,13 @@ import RaidCard from "./RaidCard";
 import db from "../utils/db";
 import { addGymsDistance } from "../utils";
 import { isPast, isFuture } from "../utils/dateFormatting";
+import { GetMyLocation } from "../components/common/location";
 
 class RaidList extends Component {
   state = {
     gyms: [],
     raids: [],
-    myLocation: { latitude: 60.1838972, longitude: 24.9816705 },
+    myLocation: { latitude: 0, longitude: 0 },
     closestGyms: []
   };
 
@@ -18,11 +19,7 @@ class RaidList extends Component {
     this.getRaids();
   }
 
-  componentDidUpdate() {
-    if (this.state.closestGyms.length === 0) {
-      this.location();
-    }
-  }
+  componentDidUpdate() {}
 
   async getGyms() {
     const gyms = await db.getGyms();
@@ -34,31 +31,12 @@ class RaidList extends Component {
     this.setState({ raids });
   }
 
-  location() {
-    if (!("geolocation" in navigator) || !navigator.geolocation) {
-      console.log("no access or geolocation in navigator");
-      return;
-    }
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        const { latitude, longitude } = position.coords;
-      },
-      err => {
-        console.log(err);
-      },
-      { timeout: 99999 }
-    );
-
-    const gymsWithDistance = addGymsDistance(
-      this.state.gyms,
-      this.state.myLocation
-    );
-
-    this.setState({ closestGyms: gymsWithDistance });
-  }
+  location = (latitude, longitude) => {
+    this.setState({ myLocation: { latitude, longitude } });
+  };
 
   raidList(raidstatus) {
-    const gyms = this.state.closestGyms;
+    const gyms = addGymsDistance(this.state.gyms, this.state.myLocation);
     let raids = [];
     if (gyms.length === 0) return;
     const gymsWithHasRaids = this.state.raids.map(function(raid) {
@@ -130,6 +108,7 @@ class RaidList extends Component {
   render() {
     return (
       <div className="raid-container">
+        <GetMyLocation myLocation={this.location} />
         <h2>Raid in progress</h2>
         {this.raidList("current")}
         <h2>incoming raids</h2>
@@ -137,6 +116,10 @@ class RaidList extends Component {
         <h2>Ended raids</h2>
         {this.raidList("ended")}
         <ul />
+        <div>
+          Debug info coords latitude: {this.state.myLocation.latitude}
+          longitude: {this.state.myLocation.longitude}
+        </div>
       </div>
     );
   }

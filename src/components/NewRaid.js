@@ -4,6 +4,7 @@ import { navigate } from "@reach/router";
 import addMinutes from "date-fns/add_minutes";
 import db from "../utils/db";
 import { addGymsDistance } from "../utils";
+import { GetMyLocation } from "./common/location";
 import "./NewRaid.css";
 import {
   WizardPageOne,
@@ -25,11 +26,19 @@ export default class NewRaid extends React.Component {
       gym: null,
       active: false,
       startTime: null
+    },
+    myLocation: {
+      latitude: 0,
+      longitude: 0
     }
   };
   componentDidMount() {
     this.getGyms();
   }
+  location = (latitude, longitude) => {
+    console.log(latitude);
+    this.setState({ myLocation: { latitude, longitude } });
+  };
   onBack = () => {
     if (this.state.step >= 2) {
       this.setState({ step: this.state.step - 1 });
@@ -112,10 +121,7 @@ export default class NewRaid extends React.Component {
       });
     });
 
-    const gymsWithDistance = addGymsDistance(gyms, {
-      latitude: 60.1838972,
-      longitude: 24.9816705
-    });
+    const gymsWithDistance = addGymsDistance(gyms, this.state.myLocation);
     const filterDistanceGyms = gymsWithDistance.filter(
       obj => obj.distance < this.state.filterDistance
     );
@@ -129,6 +135,7 @@ export default class NewRaid extends React.Component {
     const { step } = this.state;
     return (
       <div style={{ width: "100vw", height: "100vh" }}>
+        <GetMyLocation myLocation={this.location} />
         {step === 1 && (
           <WizardPageOne
             onBack={this.onBack}
@@ -146,27 +153,24 @@ export default class NewRaid extends React.Component {
         {step === 3 && (
           <PageThree onBack={this.onBack} hasStarted={this.handleRaidStarted} />
         )}
-        {step === 4 &&
-          this.state.newRaid.active && (
-            <WizardPageFourHasStarted
-              setTime={this.setEndTime}
-              saveRaid={this.onSaveRaid}
-            />
-          )}
-        {step === 4 &&
-          !this.state.newRaid.active && (
-            <WizardPageFourNotStarted
-              setTime={this.setStartTime}
-              saveRaid={this.onSaveRaid}
-            />
-          )}
-        {step === 5 &&
-          this.state.newRaid.active && (
-            <WizardPageFiveChooseRaidBoss
-              bossPool={[]}
-              saveRaid={this.onSaveRaid}
-            />
-          )}
+        {step === 4 && this.state.newRaid.active && (
+          <WizardPageFourHasStarted
+            setTime={this.setEndTime}
+            saveRaid={this.onSaveRaid}
+          />
+        )}
+        {step === 4 && !this.state.newRaid.active && (
+          <WizardPageFourNotStarted
+            setTime={this.setStartTime}
+            saveRaid={this.onSaveRaid}
+          />
+        )}
+        {step === 5 && this.state.newRaid.active && (
+          <WizardPageFiveChooseRaidBoss
+            bossPool={[]}
+            saveRaid={this.onSaveRaid}
+          />
+        )}
       </div>
     );
   }
