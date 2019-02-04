@@ -1,10 +1,10 @@
 import React from "react";
+import { geolocated } from "react-geolocated";
 
 import { navigate } from "@reach/router";
 import addMinutes from "date-fns/add_minutes";
 import db from "../utils/db";
 import { addGymsDistance } from "../utils";
-import { GetMyLocation } from "./common/location";
 import "./NewRaid.css";
 import {
   WizardPageOne,
@@ -15,7 +15,7 @@ import {
   WizardPageFiveChooseRaidBoss
 } from "./wizard";
 
-export default class NewRaid extends React.Component {
+class NewRaid extends React.Component {
   state = {
     gyms: [],
     filterDistance: 1000,
@@ -26,19 +26,27 @@ export default class NewRaid extends React.Component {
       gym: null,
       active: false,
       startTime: null
-    },
-    myLocation: {
-      latitude: 0,
-      longitude: 0
     }
   };
   componentDidMount() {
     this.getGyms();
   }
-  location = (latitude, longitude) => {
-    console.log(latitude);
-    this.setState({ myLocation: { latitude, longitude } });
-  };
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.isGeolocationEnabled &&
+      this.props.coords &&
+      this.props.coords.latitude &&
+      prevProps.coords
+    ) {
+      if (this.props.coords !== prevProps.coords) {
+        this.calculateDistanceToGym(
+          this.props.coords.latitude,
+          this.props.coords.longitude
+        );
+      }
+    }
+  }
+
   onBack = () => {
     if (this.state.step >= 2) {
       this.setState({ step: this.state.step - 1 });
@@ -120,14 +128,20 @@ export default class NewRaid extends React.Component {
         coords: data.coords
       });
     });
-
-    const gymsWithDistance = addGymsDistance(gyms, this.state.myLocation);
+    this.setState({ gyms });
+  }
+  calculateDistanceToGym(latitude, longitude) {
+    const gymsWithDistance = addGymsDistance(this.state.gyms, {
+      latitude,
+      longitude
+    });
     const filterDistanceGyms = gymsWithDistance.filter(
       obj => obj.distance < this.state.filterDistance
     );
     filterDistanceGyms.sort((a, b) => {
       return a.distance - b.distance;
     });
+    console.log(filterDistanceGyms);
     this.setState({ gyms: filterDistanceGyms });
   }
 
@@ -135,7 +149,6 @@ export default class NewRaid extends React.Component {
     const { step } = this.state;
     return (
       <div style={{ width: "100vw", height: "100vh" }}>
-        <GetMyLocation myLocation={this.location} />
         {step === 1 && (
           <WizardPageOne
             onBack={this.onBack}
@@ -175,3 +188,11 @@ export default class NewRaid extends React.Component {
     );
   }
 }
+
+export default geolocated({
+  positionOptions: {
+    enableHighAccuracy: true
+  },
+  watchPosition: true,
+  userDecisionTimeout: 5000
+})(NewRaid);

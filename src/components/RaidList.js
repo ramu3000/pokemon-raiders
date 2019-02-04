@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import RaidCard from "./RaidCard";
+import { geolocated } from "react-geolocated";
 
+import RaidCard from "./RaidCard";
 import db from "../utils/db";
 import { addGymsDistance } from "../utils";
 import { isPast, isFuture } from "../utils/dateFormatting";
-import { GetMyLocation } from "../components/common/location";
 
 class RaidList extends Component {
   state = {
@@ -19,7 +19,14 @@ class RaidList extends Component {
     this.getRaids();
   }
 
-  componentDidUpdate() {}
+  componentDidUpdate(prevProps) {
+    if (this.props.isGeolocationEnabled && this.props.coords) {
+      if (this.props.coords !== prevProps.coords) {
+        const { latitude, longitude } = this.props.coords;
+        this.setState({ myLocation: { latitude, longitude } });
+      }
+    }
+  }
 
   async getGyms() {
     const gyms = await db.getGyms();
@@ -31,14 +38,29 @@ class RaidList extends Component {
     this.setState({ raids });
   }
 
-  location = (latitude, longitude) => {
-    this.setState({ myLocation: { latitude, longitude } });
-  };
+  filterRaidList(gyms, raidstatus) {
+    switch (raidstatus) {
+      case "current":
+        return gyms.filter(
+          raid => isPast(raid.startTime) && isFuture(raid.endTime)
+        );
+      case "incoming":
+        return gyms
+          .filter(raid => isFuture(raid.startTime))
+          .sort(
+            ({ startTime }, { startTime: startTime2 }) => startTime > startTime2
+          );
+      case "ended":
+        return gyms.filter(raid => isPast(raid.endTime));
+      default:
+        return [...gyms];
+    }
+  }
 
   raidList(raidstatus) {
-    const gyms = addGymsDistance(this.state.gyms, this.state.myLocation);
     let raids = [];
-    if (gyms.length === 0) return;
+    if (this.state.gyms.length === 0) return;
+    const gyms = [...this.state.gyms];
     const gymsWithHasRaids = this.state.raids.map(function(raid) {
       const gym = gyms.find(gym => gym.id === raid.gym);
       if (!gym) return null;
@@ -53,26 +75,9 @@ class RaidList extends Component {
         startTime: raid.startTime
       };
     });
-    switch (raidstatus) {
-      case "current":
-        raids = gymsWithHasRaids.filter(
-          raid => isPast(raid.startTime) && isFuture(raid.endTime)
-        );
-        break;
-      case "incoming":
-        raids = gymsWithHasRaids
-          .filter(raid => isFuture(raid.startTime))
-          .sort(
-            ({ startTime }, { startTime: startTime2 }) => startTime > startTime2
-          );
-        break;
-      case "ended":
-        raids = gymsWithHasRaids.filter(raid => isPast(raid.endTime));
-        break;
-      default:
-        raids = [...gymsWithHasRaids];
-        break;
-    }
+    const filteredRaids = this.filterRaidList(gymsWithHasRaids, raidstatus);
+    raids = addGymsDistance(filteredRaids, this.state.myLocation);
+
     return (
       <ul>
         {raids.map(function(gymRaid, i) {
@@ -108,7 +113,6 @@ class RaidList extends Component {
   render() {
     return (
       <div className="raid-container">
-        <GetMyLocation myLocation={this.location} />
         <h2>Raid in progress</h2>
         {this.raidList("current")}
         <h2>incoming raids</h2>
@@ -117,12 +121,19 @@ class RaidList extends Component {
         {this.raidList("ended")}
         <ul />
         <div>
-          Debug info coords latitude: {this.state.myLocation.latitude}
-          longitude: {this.state.myLocation.longitude}
+          Debug info coords latitude:{" "}
+          {this.props.coords && this.props.coords.latitude} <br />
+          longitude: {this.props.coords && this.props.coords.longitude}
         </div>
       </div>
     );
   }
 }
 
-export default RaidList;
+export default geolocated({
+  positionOptions: {
+    enableHighAccuracy: true
+  },
+  watchPosition: true,
+  userDecisionTimeout: 5000
+})(RaidList);
