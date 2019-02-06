@@ -1,7 +1,6 @@
 import React from "react";
 
-const GymCard = props => {
-  const { name, id, step } = props;
+const GymCard = ({ name, id, step, distance }) => {
   return (
     <li className="gymcard">
       <header className="gymcard-header">
@@ -12,7 +11,7 @@ const GymCard = props => {
       </header>
       <div className="content">
         <p>
-          Matka gymille <b>{props.distance}m</b>
+          Matka gymille <b>{distance || "..."}m</b>
         </p>
       </div>
       <footer className="card-footer">

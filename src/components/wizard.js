@@ -1,7 +1,7 @@
 import React from "react";
 import Rating from "react-rating";
 
-import GymCard from "./GymCard";
+import GymCard from "./common/GymCard";
 import "./wizard.css";
 
 export const WizardPageOne = props => {

@@ -7,7 +7,7 @@ import geolib from "geolib";
  * @return { [ { distance: 2000, ...rest }, ...rest ] } array with objects
  * return distance property in meeters and all other info
  */
-export const addGymsDistance = (gyms, playerLocation) => {
+export const addDistanceToGyms = (gyms, playerLocation) => {
   const fetchedGyms = {};
 
   gyms.forEach(gym => {

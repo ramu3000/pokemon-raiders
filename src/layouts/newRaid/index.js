@@ -1,10 +1,10 @@
 import React from "react";
 import { geolocated } from "react-geolocated";
-
 import { navigate } from "@reach/router";
 import addMinutes from "date-fns/add_minutes";
-import db from "../utils/db";
-import { addGymsDistance } from "../utils";
+
+import db from "../../utils/db";
+import { addDistanceToGyms } from "../../utils";
 import "./NewRaid.css";
 import {
   WizardPageOne,
@@ -13,7 +13,7 @@ import {
   WizardPageFourNotStarted,
   WizardPageFourHasStarted,
   WizardPageFiveChooseRaidBoss
-} from "./wizard";
+} from "../../components/wizard";
 
 class NewRaid extends React.Component {
   state = {
@@ -131,7 +131,7 @@ class NewRaid extends React.Component {
     this.setState({ gyms });
   }
   calculateDistanceToGym(latitude, longitude) {
-    const gymsWithDistance = addGymsDistance(this.state.gyms, {
+    const gymsWithDistance = addDistanceToGyms(this.state.gyms, {
       latitude,
       longitude
     });

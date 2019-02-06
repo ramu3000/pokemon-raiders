@@ -1,17 +1,14 @@
 import React from "react";
 import Countdown from "react-countdown-now";
 
-import { formatTimesSTamp, isFuture } from "../utils/dateFormatting";
-import raidImage from "../assets/images/raid.jpg";
+import { formatTimesSTamp, isFuture } from "../../utils/dateFormatting";
+import raidImage from "../../assets/images/raid.jpg";
 
-const card = props => {
-  if (!props.name) {
+const card = ({ name, distance, level, players, boss, endTime, startTime }) => {
+  if (!name) {
     //todo proptypes
     return <li>wrong raid info</li>;
   }
-
-  const { name, distance, level, players, boss, endTime, startTime } = props;
-
   const raidLastInMinutes = (startTime, endTime) => {
     if (isFuture(startTime)) {
       return `starts in ${formatTimesSTamp(startTime)}`;
