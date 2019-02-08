@@ -2,6 +2,9 @@ import React from "react";
 import Countdown from "react-countdown-now";
 
 import { formatTimesSTamp, isFuture } from "../../utils/dateFormatting";
+
+import ShowDistance from "../common/ShowDistance";
+
 import raidImage from "../../assets/images/raid.jpg";
 
 const card = ({ name, distance, level, players, boss, endTime, startTime }) => {
@@ -9,6 +12,7 @@ const card = ({ name, distance, level, players, boss, endTime, startTime }) => {
     //todo proptypes
     return <li>wrong raid info</li>;
   }
+
   const raidLastInMinutes = (startTime, endTime) => {
     if (isFuture(startTime)) {
       return `starts in ${formatTimesSTamp(startTime)}`;
@@ -45,7 +49,11 @@ const card = ({ name, distance, level, players, boss, endTime, startTime }) => {
         </div>
         <div className="raid-proximity-timer-wrapper">
           <div className="raid-proximity">
-            <i className="fas fa-map-marker-alt" /> {distance} meters{" "}
+            <i className="fas fa-map-marker-alt" />
+            <ShowDistance
+              distance={distance}
+              noSignalText="location not found"
+            />
           </div>
 
           <div className="raid-timers">

@@ -1,4 +1,5 @@
 import React from "react";
+import ShowDistance from "../common/ShowDistance";
 
 const GymCard = ({ name, id, step, distance }) => {
   return (
@@ -11,7 +12,7 @@ const GymCard = ({ name, id, step, distance }) => {
       </header>
       <div className="content">
         <p>
-          Matka gymille <b>{distance || "..."}m</b>
+          <ShowDistance distance={distance} />
         </p>
       </div>
       <footer className="card-footer">

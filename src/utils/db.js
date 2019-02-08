@@ -58,7 +58,6 @@ class Firebase {
       const data = raid.data();
       const date = data.endtime.toDate();
       const datestart = data.starttime.toDate();
-      console.log(data);
       raids.push({
         id: raid.id,
         boss: data.boss,

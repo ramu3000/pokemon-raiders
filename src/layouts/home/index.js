@@ -21,6 +21,10 @@ class LandingPage extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.isGeolocationEnabled && this.props.coords) {
+      if (!prevProps.coords) {
+        this.addGymLocation();
+        return;
+      }
       if (this.props.coords !== prevProps.coords) {
         this.addGymLocation();
       }

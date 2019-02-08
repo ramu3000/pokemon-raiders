@@ -19,7 +19,6 @@ export const addDistanceToGyms = (gyms, playerLocation) => {
   });
 
   const gymDistance = geolib.orderByDistance(playerLocation, fetchedGyms);
-
   const gymsWithDistance = gyms.map(gym => {
     let distance;
     /* todo: could be better optimized */
@@ -28,7 +27,7 @@ export const addDistanceToGyms = (gyms, playerLocation) => {
         distance = gymWithDistance.distance;
       }
     });
-    return { distance, ...gym };
+    return { ...gym, distance };
   });
 
   return gymsWithDistance;
