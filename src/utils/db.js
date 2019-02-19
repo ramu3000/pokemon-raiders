@@ -1,15 +1,14 @@
-import firebase from "firebase/app";
-import "firebase/firestore";
-
-import { FirebaseConfig } from "../config/keys";
+import firebase, { firestore } from "../firebase";
 
 class Firebase {
   constructor() {
-    firebase.initializeApp(FirebaseConfig);
-    this.db = firebase.firestore();
-    this.db.settings({
-      timestampsInSnapshots: true
-    });
+    this.db = firestore;
+
+    // firebase.initializeApp(FirebaseConfig);
+    // this.db = firebase.firestore();
+    // this.db.settings({
+    //   timestampsInSnapshots: true
+    // });
   }
 
   get gyms() {
@@ -40,7 +39,7 @@ class Firebase {
       starttime: raid.startTime
     };
 
-    await this.db
+    this.db
       .collection("raids")
       .add(raidData)
       .then(function(docRef, cb) {

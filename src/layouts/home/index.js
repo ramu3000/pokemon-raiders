@@ -5,6 +5,7 @@ import db from "../../utils/db";
 import { addDistanceToGyms } from "../../utils";
 
 import { RaidList } from "./../../components/RaidList";
+import WithGyms from "../../components/containers/WithGyms";
 
 class LandingPage extends Component {
   state = {
@@ -17,6 +18,7 @@ class LandingPage extends Component {
   componentDidMount() {
     this.getGyms();
     this.getRaids();
+    console.log(this.props.gyms);
   }
 
   componentDidUpdate(prevProps) {
@@ -61,6 +63,7 @@ class LandingPage extends Component {
   }
 
   render() {
+    console.log(this.props.gyms);
     return (
       <div className="raid-container">
         <h2>Raid in progress</h2>
@@ -98,4 +101,4 @@ export default geolocated({
   },
   watchPosition: true,
   userDecisionTimeout: 5000
-})(LandingPage);
+})(WithGyms(LandingPage));

@@ -32,3 +32,7 @@ export const addDistanceToGyms = (gyms, playerLocation) => {
 
   return gymsWithDistance;
 };
+
+export const collectIdsAndDocs = doc => {
+  return { id: doc.id, ...doc.data() };
+};
