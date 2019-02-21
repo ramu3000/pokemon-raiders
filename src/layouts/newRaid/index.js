@@ -1,10 +1,8 @@
 import React from "react";
-import { geolocated } from "react-geolocated";
 import { navigate } from "@reach/router";
 import addMinutes from "date-fns/add_minutes";
 
 import db from "../../utils/db";
-import { addDistanceToGyms } from "../../utils";
 import "./NewRaid.css";
 import {
   WizardPageOne,
@@ -19,7 +17,6 @@ import withGyms from "../../components/containers/WithGyms";
 class NewRaid extends React.Component {
   state = {
     gyms: [],
-    filterDistance: 1000,
     gymTime: 45,
     step: 1,
     newRaid: {
@@ -29,22 +26,8 @@ class NewRaid extends React.Component {
       startTime: null
     }
   };
+  filterDistance = 1000;
   componentDidMount() {}
-  componentDidUpdate(prevProps) {
-    if (
-      this.props.isGeolocationEnabled &&
-      this.props.coords &&
-      this.props.coords.latitude &&
-      prevProps.coords
-    ) {
-      if (this.props.coords !== prevProps.coords) {
-        this.calculateDistanceToGym(
-          this.props.coords.latitude,
-          this.props.coords.longitude
-        );
-      }
-    }
-  }
 
   onBack = () => {
     if (this.state.step >= 2) {
@@ -119,31 +102,28 @@ class NewRaid extends React.Component {
     navigate("/");
   }
 
-  calculateDistanceToGym(latitude, longitude) {
-    const gymsWithDistance = addDistanceToGyms(this.props.gyms, {
-      latitude,
-      longitude
-    });
+  sortByDistance(maxDistance) {
     //filter out gyms what you cant see from pokemon go app
-    const filterDistanceGyms = gymsWithDistance.filter(
-      obj => obj.distance < this.state.filterDistance
+    const filterDistanceGyms = this.props.gyms.filter(
+      obj => obj.distance < maxDistance
     );
     //sort by ascending distance
     filterDistanceGyms.sort((a, b) => {
       return a.distance - b.distance;
     });
 
-    this.setState({ gyms: filterDistanceGyms });
+    return filterDistanceGyms;
   }
 
   render() {
     const { step } = this.state;
+    const gyms = this.sortByDistance(this.filterDistance);
     return (
       <div style={{ width: "100vw", height: "100vh" }}>
         {step === 1 && (
           <WizardPageOne
             onBack={this.onBack}
-            gyms={this.state.gyms}
+            gyms={gyms}
             addGym={this.onAddGym}
           />
         )}
@@ -180,10 +160,4 @@ class NewRaid extends React.Component {
   }
 }
 
-export default geolocated({
-  positionOptions: {
-    enableHighAccuracy: true
-  },
-  watchPosition: true,
-  userDecisionTimeout: 5000
-})(withGyms(NewRaid));
+export default withGyms(NewRaid);

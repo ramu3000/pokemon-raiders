@@ -37,6 +37,25 @@ export const collectIdsAndDocs = doc => {
   return { id: doc.id, ...doc.data() };
 };
 
+export const collectRaidInfo = doc => {
+  const data = doc.data();
+  const {
+    boss,
+    gym: { id: gym },
+    level,
+    playerQue
+  } = data;
+  return {
+    id: doc.id,
+    endTime: data.endtime.toDate(),
+    startTime: data.starttime.toDate(),
+    boss,
+    gym,
+    level,
+    playerQue
+  };
+};
+
 var g_GEOHASH_PRECISION = 10;
 var g_BASE32 = "0123456789bcdefghjkmnpqrstuvwxyz";
 //https://jsbin.com/mosiza/53/edit?html,js,output

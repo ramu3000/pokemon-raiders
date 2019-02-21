@@ -4,12 +4,15 @@ import "./index.css";
 import App from "./layouts/App";
 import * as serviceWorker from "./serviceWorker";
 import GymsProvider from "./components/providers/GymsProvider";
+import RaidsProvider from "./components/providers/RaidsProvider";
 import LocationProvider from "./components/providers/LocationProvider";
 
 ReactDOM.render(
   <LocationProvider>
     <GymsProvider>
-      <App />
+      <RaidsProvider>
+        <App />
+      </RaidsProvider>
     </GymsProvider>
   </LocationProvider>,
   document.getElementById("root")

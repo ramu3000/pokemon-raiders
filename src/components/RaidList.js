@@ -8,12 +8,15 @@ export const RaidList = ({ gyms, raids, raidStatus }) => {
   if (gyms.length === 0 || raids.length === 0) {
     return null;
   }
+  console.log(raids);
 
+  //Remove gyms from list, add distance to raid location
   let raidPool = [];
   if (gyms.length === 0) return;
   const gymsWithHasRaids = raids.map(function(raid) {
     const gym = gyms.find(gym => gym.id === raid.gym);
     if (!gym) return null;
+
     return {
       id: raid.id,
       name: gym.name,
