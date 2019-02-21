@@ -14,6 +14,7 @@ import {
   WizardPageFourHasStarted,
   WizardPageFiveChooseRaidBoss
 } from "../../components/wizard";
+import withGyms from "../../components/containers/WithGyms";
 
 class NewRaid extends React.Component {
   state = {
@@ -28,9 +29,7 @@ class NewRaid extends React.Component {
       startTime: null
     }
   };
-  componentDidMount() {
-    this.getGyms();
-  }
+  componentDidMount() {}
   componentDidUpdate(prevProps) {
     if (
       this.props.isGeolocationEnabled &&
@@ -56,7 +55,9 @@ class NewRaid extends React.Component {
   };
   onAddGym = event => {
     const gymId = event.target.dataset.id;
-    const raid = { ...this.state.newRaid, gym: gymId };
+    const gymData = this.state.gyms.filter(gym => gym.id === gymId);
+    console.log(gymData);
+    const raid = { ...this.state.newRaid, gym: gymId, gymData: gymData[0] };
     this.setState({ newRaid: raid });
     this.goToNextStep();
   };
@@ -117,31 +118,21 @@ class NewRaid extends React.Component {
     await db.saveRaid(raid);
     navigate("/");
   }
-  async getGyms() {
-    const querySnapshot = await db.gyms;
-    const gyms = [];
-    querySnapshot.forEach(gym => {
-      const data = gym.data();
-      gyms.push({
-        id: gym.id,
-        name: data.name,
-        coords: data.coords
-      });
-    });
-    this.setState({ gyms });
-  }
+
   calculateDistanceToGym(latitude, longitude) {
-    const gymsWithDistance = addDistanceToGyms(this.state.gyms, {
+    const gymsWithDistance = addDistanceToGyms(this.props.gyms, {
       latitude,
       longitude
     });
+    //filter out gyms what you cant see from pokemon go app
     const filterDistanceGyms = gymsWithDistance.filter(
       obj => obj.distance < this.state.filterDistance
     );
+    //sort by ascending distance
     filterDistanceGyms.sort((a, b) => {
       return a.distance - b.distance;
     });
-    console.log(filterDistanceGyms);
+
     this.setState({ gyms: filterDistanceGyms });
   }
 
@@ -195,4 +186,4 @@ export default geolocated({
   },
   watchPosition: true,
   userDecisionTimeout: 5000
-})(NewRaid);
+})(withGyms(NewRaid));

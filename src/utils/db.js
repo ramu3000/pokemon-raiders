@@ -36,7 +36,8 @@ class Firebase {
       gym: gymReference,
       level: raid.difficulty,
       playerque: raid.playerque ? raid.playerque : null,
-      starttime: raid.startTime
+      starttime: raid.startTime,
+      gymData: raid.gymData
     };
 
     this.db
