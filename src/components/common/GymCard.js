@@ -1,7 +1,7 @@
 import React from "react";
 import ShowDistance from "../common/ShowDistance";
 
-const GymCard = ({ name, id, step, distance }) => {
+const GymCard = ({ name, id, onSave, distance }) => {
   return (
     <li className="gymcard">
       <header className="gymcard-header">
@@ -18,7 +18,7 @@ const GymCard = ({ name, id, step, distance }) => {
       <footer className="card-footer">
         <a
           href="javascript:void(0)"
-          onClick={step}
+          onClick={onSave}
           className="card-footer-item"
           data-id={id}
         >

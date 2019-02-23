@@ -4,14 +4,12 @@ import addMinutes from "date-fns/add_minutes";
 
 import db from "../../utils/db";
 import "./NewRaid.css";
-import {
-  WizardPageOne,
-  PageTwo,
-  PageThree,
-  WizardPageFourNotStarted,
-  WizardPageFourHasStarted,
-  WizardPageFiveChooseRaidBoss
-} from "../../components/wizard";
+import ChooseGym from "./wizard/ChooseGym";
+import ChooseDifficulty from "./wizard/ChooseDifficulty";
+import HasRaidStarted from "./wizard/HasRaidStarted";
+import ChooseStartTime from "./wizard/ChooseStartTime";
+
+import { WizardPageFiveChooseRaidBoss } from "../../components/wizard";
 import withGyms from "../../components/containers/WithGyms";
 
 class NewRaid extends React.Component {
@@ -36,46 +34,27 @@ class NewRaid extends React.Component {
       navigate("/");
     }
   };
-  onAddGym = event => {
-    const gymId = event.target.dataset.id;
-    const gymData = this.state.gyms.filter(gym => gym.id === gymId);
-    console.log(gymData);
-    const raid = { ...this.state.newRaid, gym: gymId, gymData: gymData[0] };
-    this.setState({ newRaid: raid });
-    this.goToNextStep();
-  };
-  onAddRating = difficulty => {
-    const raid = { ...this.state.newRaid, difficulty };
-    this.setState({ newRaid: raid });
-    this.goToNextStep();
-  };
-  handleRaidStarted = event => {
-    if (!event.target.dataset.started) {
-      console.error("no value given for raid start");
-      return null;
+
+  onValueSave = ({ key, value }, nextStep = true) => {
+    if (!key && !value) return;
+    this.setState({ newRaid: { ...this.state.newRaid, [key]: value } });
+    if (nextStep) {
+      console.log("next step");
+      this.goToNextStep();
     }
-    const raidStarted = event.target.dataset.started === "true";
-    const raid = { ...this.state.newRaid, active: raidStarted };
-    this.setState({ newRaid: raid });
-    this.goToNextStep();
   };
-  setStartTime = event => {
-    const startTime = addMinutes(new Date(), event.target.value);
-    const raid = { ...this.state.newRaid, startTime };
-    this.setState({ newRaid: raid });
-  };
-  setEndTime = event => {
-    const endTime = addMinutes(new Date(), event.target.value);
-    const raid = { ...this.state.newRaid, endTime };
-    this.setState({ newRaid: raid }, this.goToNextStep);
-  };
+
   goToNextStep = () => {
     this.setState({ step: this.state.step + 1 });
   };
+
   onSaveRaid = () => {
     const registeredTime = new Date();
-    let raid = null;
-
+    let raid = {};
+    const gymDataArray = this.props.gyms.filter(
+      gym => gym.id === this.state.newRaid.gym
+    );
+    const [currentGymData] = gymDataArray;
     if (this.state.newRaid.startTime) {
       const endTime = addMinutes(
         this.state.newRaid.startTime,
@@ -93,20 +72,23 @@ class NewRaid extends React.Component {
       console.error("time has not been added");
       return;
     }
+    raid = { ...raid, gymData: currentGymData };
     this.setState({ newRaid: raid }, () => {
       this.saveData(raid);
     });
   };
   async saveData(raid) {
-    await db.saveRaid(raid);
-    navigate("/");
+    try {
+      await db.saveRaid(raid);
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+    }
   }
 
-  sortByDistance(maxDistance) {
+  filterGymsAndSortByDistance(gyms, maxDistance) {
     //filter out gyms what you cant see from pokemon go app
-    const filterDistanceGyms = this.props.gyms.filter(
-      obj => obj.distance < maxDistance
-    );
+    const filterDistanceGyms = gyms.filter(obj => obj.distance < maxDistance);
     //sort by ascending distance
     filterDistanceGyms.sort((a, b) => {
       return a.distance - b.distance;
@@ -117,36 +99,33 @@ class NewRaid extends React.Component {
 
   render() {
     const { step } = this.state;
-    const gyms = this.sortByDistance(this.filterDistance);
+    const gyms = this.filterGymsAndSortByDistance(
+      this.props.gyms,
+      this.filterDistance
+    );
     return (
       <div style={{ width: "100vw", height: "100vh" }}>
         {step === 1 && (
-          <WizardPageOne
+          <ChooseGym
             onBack={this.onBack}
             gyms={gyms}
-            addGym={this.onAddGym}
+            addGym={this.onValueSave}
           />
         )}
         {step === 2 && (
-          <PageTwo
+          <ChooseDifficulty
             onBack={this.onBack}
             difficulty={this.state.newRaid.difficulty}
-            addRating={this.onAddRating}
+            addRating={this.onValueSave}
           />
         )}
         {step === 3 && (
-          <PageThree onBack={this.onBack} hasStarted={this.handleRaidStarted} />
+          <HasRaidStarted onBack={this.onBack} hasStarted={this.onValueSave} />
         )}
-        {step === 4 && this.state.newRaid.active && (
-          <WizardPageFourHasStarted
+        {step === 4 && (
+          <ChooseStartTime
             setTime={this.setEndTime}
-            saveRaid={this.onSaveRaid}
-          />
-        )}
-        {step === 4 && !this.state.newRaid.active && (
-          <WizardPageFourNotStarted
-            setTime={this.setStartTime}
-            saveRaid={this.onSaveRaid}
+            saveRaid={this.onValueSave}
           />
         )}
         {step === 5 && this.state.newRaid.active && (
