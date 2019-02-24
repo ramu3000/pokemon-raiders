@@ -43,7 +43,8 @@ export const collectRaidInfo = doc => {
     boss,
     gym: { id: gym },
     level,
-    playerQue
+    playerQue,
+    gymData: { name: gymName, geohash, coords }
   } = data;
   return {
     id: doc.id,
@@ -52,7 +53,10 @@ export const collectRaidInfo = doc => {
     boss,
     gym,
     level,
-    playerQue
+    playerQue,
+    gymName,
+    geohash,
+    coords
   };
 };
 

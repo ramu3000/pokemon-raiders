@@ -8,7 +8,6 @@ export const RaidList = ({ gyms, raids, raidStatus }) => {
   if (gyms.length === 0 || raids.length === 0) {
     return null;
   }
-  console.log(raids);
 
   //Remove gyms from list, add distance to raid location
   let raidPool = [];

@@ -25,6 +25,7 @@ class RaidProvider extends Component {
         .collection("raids")
         .where("gymData.geohash", ">=", geohash)
         .orderBy("gymData.geohash")
+        .limit(100)
         .onSnapshot(snapshot => {
           const raids = snapshot.docs.map(collectRaidInfo);
           console.log("snapshot", raids);
@@ -43,7 +44,7 @@ class RaidProvider extends Component {
 
   render() {
     const { children } = this.props;
-    console.log("init", this.state.raids);
+    console.log("RaidsProvider:", this.state.raids);
     return (
       <RaidsContext.Provider value={this.state.raids}>
         {children}
