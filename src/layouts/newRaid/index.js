@@ -37,11 +37,14 @@ class NewRaid extends React.Component {
 
   onValueSave = ({ key, value }, nextStep = true) => {
     if (!key && !value) return;
-    this.setState({ newRaid: { ...this.state.newRaid, [key]: value } });
-    if (nextStep) {
-      console.log("next step");
-      this.goToNextStep();
-    }
+    this.setState({ newRaid: { ...this.state.newRaid, [key]: value } }, () => {
+      if (nextStep) {
+        console.log("next step");
+        this.goToNextStep();
+      } else {
+        this.onSaveRaid();
+      }
+    });
   };
 
   goToNextStep = () => {
@@ -124,6 +127,7 @@ class NewRaid extends React.Component {
         )}
         {step === 4 && (
           <ChooseStartTime
+            active={this.state.newRaid.active}
             setTime={this.setEndTime}
             saveRaid={this.onValueSave}
           />
