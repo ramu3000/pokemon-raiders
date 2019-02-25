@@ -23,6 +23,9 @@ class GymsProvider extends Component {
 
   geohashProximity = 4;
 
+  get gymsRef() {
+    return firestore.collection("gyms");
+  }
   componentDidMount = () => {};
   componentDidUpdate() {
     if (this.props.context && this.state.loading) {
@@ -31,8 +34,7 @@ class GymsProvider extends Component {
         [latitude, longitude],
         this.geohashProximity
       );
-      this.unsubscribeFromFirestore = firestore
-        .collection("gyms")
+      this.unsubscribeFromFirestore = this.gymsRef
         .where("geohash", ">=", geohash)
         .orderBy("geohash")
         .onSnapshot(snapshot => {

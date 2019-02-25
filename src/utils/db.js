@@ -44,40 +44,6 @@ class Firebase {
         console.error("Error adding document: ", error);
       });
   }
-
-  async getRaids() {
-    const querySnapshot = await this.raids;
-    const raids = [];
-    querySnapshot.forEach(raid => {
-      const data = raid.data();
-      const date = data.endtime.toDate();
-      const datestart = data.starttime.toDate();
-      raids.push({
-        id: raid.id,
-        boss: data.boss,
-        gym: data.gym.id,
-        level: data.level,
-        playerQue: data.playerQue,
-        endTime: date,
-        startTime: datestart
-      });
-    });
-    return raids;
-  }
-
-  async getGyms() {
-    const querySnapshot = await this.gyms;
-    const gyms = [];
-    querySnapshot.forEach(gym => {
-      const data = gym.data();
-      gyms.push({
-        id: gym.id,
-        name: data.name,
-        coords: data.coords
-      });
-    });
-    return gyms;
-  }
 }
 
 export default new Firebase();

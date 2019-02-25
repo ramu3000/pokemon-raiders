@@ -9,7 +9,7 @@ $buttonSize: 55px;
     z-index: 15;
     width: $buttonSize;
     height: $buttonSize;
-    background-color: steelblue;
+    background-color: #26a69a;
     border: 3px solid #122f92;
     border-radius: 50px;
     display: flex;
@@ -33,15 +33,15 @@ $buttonSize: 55px;
     }
   }
   .navigation-button-raid {
-    width: $buttonSize - 20px;
-    height: $buttonSize - 20px;
+    width: $buttonSize - 5px;
+    height: $buttonSize - 5px;
     background-color: #395063;
     border-radius: 40px;
     position: absolute;
     z-index: 9;
     transition: all 0.5s;
-    left: 15px;
-    top: 15px;
+    left: 0px;
+    top: 0px;
     display: flex;
     align-items: center;
     justify-content: center;

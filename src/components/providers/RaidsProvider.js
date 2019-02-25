@@ -1,6 +1,6 @@
 import React, { Component, createContext } from "react";
 import { firestore } from "../../firebase";
-import { collectRaidInfo, encodeGeohash } from "../../utils";
+import { collectRaidInfo, encodeGeohash, addDistanceToGyms } from "../../utils";
 import { LocationContext } from "../providers/LocationProvider";
 
 export const RaidsContext = createContext();
@@ -25,7 +25,7 @@ class RaidProvider extends Component {
         .collection("raids")
         .where("gymData.geohash", ">=", geohash)
         .orderBy("gymData.geohash")
-        .limit(100)
+        .limit(10)
         .onSnapshot(snapshot => {
           const raids = snapshot.docs.map(collectRaidInfo);
           console.log("snapshot", raids);
@@ -44,11 +44,18 @@ class RaidProvider extends Component {
 
   render() {
     const { children } = this.props;
-    console.log("RaidsProvider:", this.state.raids);
+
+    let raids = this.state.raids;
+    if (this.props.context) {
+      const { latitude, longitude } = this.props.context;
+      raids = addDistanceToGyms(raids, {
+        latitude,
+        longitude
+      });
+    }
+    console.log("RaidsProvider:", raids);
     return (
-      <RaidsContext.Provider value={this.state.raids}>
-        {children}
-      </RaidsContext.Provider>
+      <RaidsContext.Provider value={raids}>{children}</RaidsContext.Provider>
     );
   }
 }

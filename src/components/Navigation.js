@@ -1,7 +1,7 @@
 import React from "react";
 import "./Navigation.css";
 import { Link, navigate } from "@reach/router";
-
+import { Icon } from "react-materialize";
 class Navigation extends React.Component {
   state = {
     navButtonOpen: false
@@ -23,8 +23,8 @@ class Navigation extends React.Component {
         }
       >
         <button onClick={this.goToNewRaid} className="navigation-button-raid">
-          <span role="img" aria-label="new raid">
-            📯
+          <span style={{ color: "white" }} role="img" aria-label="new raid">
+            <Icon>note_add</Icon>
           </span>
         </button>
         <div className="navigation-button">

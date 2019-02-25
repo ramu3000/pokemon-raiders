@@ -4,30 +4,27 @@ import { isPast, isFuture } from "../utils/dateFormatting";
 
 import RaidCard from "./common/RaidCard";
 
-export const RaidList = ({ gyms, raids, raidStatus }) => {
-  if (gyms.length === 0 || raids.length === 0) {
+export const RaidList = ({ raids, raidStatus }) => {
+  if (raids.length === 0) {
     return null;
   }
 
   //Remove gyms from list, add distance to raid location
   let raidPool = [];
-  if (gyms.length === 0) return;
-  const gymsWithHasRaids = raids.map(function(raid) {
-    const gym = gyms.find(gym => gym.id === raid.gym);
-    if (!gym) return null;
 
+  const gymsWithHasRaids = raids.map(function(raid) {
     return {
       id: raid.id,
-      name: gym.name,
-      distance: gym.distance,
+      name: raid.gymName,
+      distance: raid.distance,
       level: raid.level,
       boss: raid.boss,
       players: raid.playerQue,
       endTime: raid.endTime,
       startTime: raid.startTime,
       coords: {
-        latitude: gym.coords.latitude,
-        longitude: gym.coords.longitude
+        latitude: raid.coords.latitude,
+        longitude: raid.coords.longitude
       }
     };
   });
@@ -43,6 +40,7 @@ export const RaidList = ({ gyms, raids, raidStatus }) => {
         return (
           <RaidCard
             key={gymRaid.id}
+            id={gymRaid.id}
             distance={gymRaid.distance}
             name={gymRaid.name}
             level={gymRaid.level}

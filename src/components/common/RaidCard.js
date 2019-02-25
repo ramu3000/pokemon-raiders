@@ -1,13 +1,22 @@
 import React from "react";
 import Countdown from "react-countdown-now";
-
+import { Link } from "@reach/router";
 import { formatTimesSTamp, isFuture } from "../../utils/dateFormatting";
 
 import ShowDistance from "../common/ShowDistance";
 
 import raidImage from "../../assets/images/raid.jpg";
 
-const card = ({ name, distance, level, players, boss, endTime, startTime }) => {
+const card = ({
+  name,
+  id,
+  distance,
+  level,
+  players,
+  boss,
+  endTime,
+  startTime
+}) => {
   if (!name) {
     //todo proptypes
     return <li>wrong raid info</li>;
@@ -77,7 +86,9 @@ const card = ({ name, distance, level, players, boss, endTime, startTime }) => {
         </div>
       </div>
 
-      <button className="gym-btn-more-info">More info</button>
+      <Link to={`/raid/${id}`} className="gym-btn-more-info">
+        More info
+      </Link>
     </li>
   );
 };

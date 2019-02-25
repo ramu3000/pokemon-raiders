@@ -24,7 +24,6 @@ const ChooseGym = props => {
   }
   return (
     <div>
-      <button onClick={props.onBack}>back</button>
       <h2>Choose your gym</h2>
       <p>please choose gym where raid is starting </p>
       {renderGyms()}

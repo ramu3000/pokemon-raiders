@@ -59,6 +59,17 @@ export const collectRaidInfo = doc => {
     coords
   };
 };
+export const collectRaidInfoPage = doc => {
+  const data = doc.data();
+  const endTime = data.endtime.toDate();
+  const startTime = data.starttime.toDate();
+  return {
+    id: doc.id,
+    ...data,
+    endTime,
+    startTime
+  };
+};
 
 var g_GEOHASH_PRECISION = 10;
 var g_BASE32 = "0123456789bcdefghjkmnpqrstuvwxyz";

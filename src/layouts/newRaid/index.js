@@ -8,7 +8,7 @@ import ChooseGym from "./wizard/ChooseGym";
 import ChooseDifficulty from "./wizard/ChooseDifficulty";
 import HasRaidStarted from "./wizard/HasRaidStarted";
 import ChooseStartTime from "./wizard/ChooseStartTime";
-
+import Stepper from "./wizard/Stepper";
 import { WizardPageFiveChooseRaidBoss } from "../../components/wizard";
 import withGyms from "../../components/containers/WithGyms";
 
@@ -138,6 +138,7 @@ class NewRaid extends React.Component {
             saveRaid={this.onSaveRaid}
           />
         )}
+        <Stepper back={this.onBack} />
       </div>
     );
   }

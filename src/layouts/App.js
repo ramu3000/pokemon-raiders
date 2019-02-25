@@ -5,6 +5,7 @@ import Navigation from "../components/Navigation";
 
 import LandingPage from "./home/";
 import NewRaid from "./newRaid/";
+import RaidPage from "./RaidPage";
 
 class App extends Component {
   render() {
@@ -13,6 +14,7 @@ class App extends Component {
         <Router>
           <LandingPage path="/" />
           <NewRaid path="new-raid" />
+          <RaidPage path="raid/:id" />
         </Router>
         <Navigation />
       </div>
