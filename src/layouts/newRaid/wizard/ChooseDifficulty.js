@@ -10,10 +10,9 @@ const ChooseDifficulty = props => {
   };
 
   return (
-    <div>
+    <div style={{ marginBottom: "20px" }}>
       <h2>Boss difficulty</h2>
       <p>Add boss difficulty</p>
-      <button onClick={onBack}>back</button>
       <Rating onChange={addDifficulty} initialRating={difficulty} />
     </div>
   );

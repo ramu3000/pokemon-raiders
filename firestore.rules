@@ -10,7 +10,7 @@ service cloud.firestore {
       if false
       match /comments/{commentId} {
       	allow read;
-      	allow create,update: if request.auth.uid !=null;
+      	allow create,update;
       }
     }
     match /gyms/{gymId} {

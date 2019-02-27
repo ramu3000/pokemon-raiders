@@ -37,6 +37,12 @@ export const collectIdsAndDocs = doc => {
   return { id: doc.id, ...doc.data() };
 };
 
+export const collectIdsAndDocsWithDate = doc => {
+  const data = doc.data();
+  const date = data.date.toDate();
+  return { id: doc.id, ...data, date };
+};
+
 export const collectRaidInfo = doc => {
   const data = doc.data();
   const {

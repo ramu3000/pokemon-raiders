@@ -8,6 +8,10 @@ export const formatTimesSTamp = function(timestamp) {
   return format(timestamp, "HH:mm:ss").toString();
 };
 
+export const timeStampHoursAndMinutes = function(timestamp) {
+  return format(timestamp, "HH:mm").toString();
+};
+
 export const isPast = function(timestamp) {
   return dateFNSIsPast(timestamp);
 };

@@ -3,40 +3,93 @@
    License: none (public domain)
 */
 
-html, body, div, span,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, del,small, strike, strong, sub, sup, tt, var,
-ol, ul, li,fieldset, form, label, legend, article, aside, canvas,figure, figcaption, footer, header, hgroup, 
-menu, nav,section, summary,time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+html,
+body,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+del,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+article,
+aside,
+canvas,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
 }
 body {
-	line-height: 1;
+  line-height: 1;
 }
-ol, ul {
-	list-style: none;
+ol,
+ul {
+  list-style: none;
 }
-blockquote, q {
-	quotes: none;
+blockquote,
+q {
+  quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
 }
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 /** RESET END */
@@ -55,12 +108,12 @@ h2 {
   margin-bottom: 45px;
   width: 90%;
   position: relative;
-  
+
   & > div {
     width: 50%;
   }
 
-  button.gym-btn-more-info {
+  a.gym-btn-more-info {
     position: absolute;
     bottom: 0;
     right: 10px;
@@ -71,15 +124,15 @@ h2 {
     border: none;
     border-radius: 4px;
     box-shadow: 0px 5px 7px 0px #a0a0a0;
+    padding-top: 11px;
+    color: white;
   }
 
   .raid-logo img {
     width: 50%;
     height: auto;
   }
-
 }
-
 
 .App {
   text-align: center;
@@ -105,8 +158,41 @@ h2 {
 .App-intro {
   font-size: large;
 }
+.gym--triangle {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  border: 1px solid black;
+  margin: 35px auto;
+  transform: rotate(222deg);
+}
+.gym--boss {
+  position: relative;
+  right: 20px;
+  text-align: right;
+  top: -123px;
+}
+.chat-wrapper {
+  .AddComment {
+    margin-bottom: 15px;
+  }
+  article {
+    padding: 5px 10px;
+    text-align: left;
+    .comment--author {
+      padding-right: 5px;
+    }
+    .comment--date {
+      padding-right: 10px;
+    }
+  }
+}
 
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

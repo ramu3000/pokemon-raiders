@@ -1,8 +1,8 @@
 import React from "react";
 import { Button } from "react-materialize";
-import { Link } from "@reach/router";
+import { Link, navigate } from "@reach/router";
 import { firestore } from "../firebase";
-import { collectIdsAndDocs, collectRaidInfoPage } from "../utils";
+import { collectIdsAndDocsWithDate, collectRaidInfoPage } from "../utils";
 import Comments from "../components/Comments";
 
 class RaidPage extends React.Component {
@@ -30,10 +30,12 @@ class RaidPage extends React.Component {
       const raid = collectRaidInfoPage(snapshot);
       this.setState({ raid });
     });
-    this.unsubscribeFromComments = this.commentsRef.onSnapshot(snapshot => {
-      const comments = snapshot.docs.map(collectIdsAndDocs);
-      this.setState({ comments });
-    });
+    this.unsubscribeFromComments = this.commentsRef
+      .orderBy("date", "desc")
+      .onSnapshot(snapshot => {
+        const comments = snapshot.docs.map(collectIdsAndDocsWithDate);
+        this.setState({ comments });
+      });
   }
 
   componentWillUnmount() {
@@ -43,8 +45,9 @@ class RaidPage extends React.Component {
 
   createComment = comment => {
     //TODO USERNAME
-    const user = "";
-    this.commentsRef.add({ ...comment, user });
+    const user = "Anymous";
+    const date = new Date();
+    this.commentsRef.add({ ...comment, user, date });
   };
 
   render() {
@@ -56,13 +59,12 @@ class RaidPage extends React.Component {
 
     return (
       <div>
-        <Button>
-          <Link to="/">Back</Link>
-        </Button>
+        <Button onClick={() => navigate("/")}>Back</Button>
 
         <div className="gym graphics">
-          <div>Pokemon: {boss || "not known"} </div>
-          <div>Distance: </div>
+          <div className="gym--triangle" />
+          <div className="gym--boss">Pokemon: {boss || "not known"} </div>
+          <div className="gym--distance">Distance: </div>
         </div>
 
         <div>Ending time: </div>

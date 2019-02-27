@@ -1,15 +1,18 @@
 import React from "react";
-
+import { timeStampHoursAndMinutes } from "../utils/dateFormatting";
 const Comment = props => {
   console.log(props);
   if (!props) {
     return null;
   }
+  console.log(props);
   return (
     <article>
-      <p>User:</p>
-      <p>{props.content}</p>
-      <p>time</p>
+      <span className="comment--author">{props.user}</span>
+      <span className="comment--date">
+        {timeStampHoursAndMinutes(props.date)}
+      </span>
+      <span className="comment--text">{props.content}</span>
     </article>
   );
 };
