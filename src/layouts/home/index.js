@@ -8,16 +8,19 @@ class LandingPage extends Component {
     return (
       <div className="raid-container">
         <RaidsContext.Consumer>
-          {raids => (
-            <div>
-              <h2>Raid in progress</h2>
-              <RaidList raids={raids} raidStatus="current" />
-              <h2>Incoming raids</h2>
-              <RaidList raids={raids} raidStatus="incoming" />
-              <h2>Ended raids</h2>
-              <RaidList raids={raids} raidStatus="ended" />
-            </div>
-          )}
+          {raids => {
+            console.log("raidsconsumer", raids);
+            return (
+              <div>
+                <h2>Raid in progress</h2>
+                <RaidList raids={raids} raidStatus="current" />
+                <h2>Incoming raids</h2>
+                <RaidList raids={raids} raidStatus="incoming" />
+                <h2>Ended raids</h2>
+                <RaidList raids={raids} raidStatus="ended" />
+              </div>
+            );
+          }}
         </RaidsContext.Consumer>
       </div>
     );

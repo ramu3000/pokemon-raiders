@@ -53,3 +53,11 @@
     }
   }
 }
+.steps__wrapper {
+  min-height: 200px;
+  box-sizing: border-box;
+  .button--actions {
+    justify-content: space-evenly;
+    display: flex;
+  }
+}

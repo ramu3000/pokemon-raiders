@@ -4,43 +4,60 @@
   color: #4a4a4a;
   max-width: 100%;
   position: relative;
-  margin: 20px; }
-  .gymcard header {
-    align-items: center;
-    color: #363636;
-    display: flex;
-    flex-grow: 1;
-    font-weight: 700;
-    padding: 0.75rem; }
-    .gymcard header p {
-      align-items: center;
-      color: #363636;
-      display: flex;
-      flex-grow: 1;
-      font-weight: 700;
-      padding: 0.75rem; }
-  .gymcard footer {
-    background-color: transparent;
-    border-top: 1px solid #dbdbdb;
-    align-items: stretch;
-    display: flex; }
-    .gymcard footer a {
-      align-items: center;
-      display: flex;
-      flex-basis: 0;
-      flex-grow: 1;
-      flex-shrink: 0;
-      justify-content: center;
-      padding: 0.75rem; }
+  margin: 20px;
+}
+.gymcard header {
+  align-items: center;
+  color: #363636;
+  display: flex;
+  flex-grow: 1;
+  font-weight: 700;
+  padding: 0.75rem;
+}
+.gymcard header p {
+  align-items: center;
+  color: #363636;
+  display: flex;
+  flex-grow: 1;
+  font-weight: 700;
+  padding: 0.75rem;
+}
+.gymcard footer {
+  background-color: transparent;
+  border-top: 1px solid #dbdbdb;
+  align-items: stretch;
+  display: flex;
+}
+.gymcard footer a {
+  align-items: center;
+  display: flex;
+  flex-basis: 0;
+  flex-grow: 1;
+  flex-shrink: 0;
+  justify-content: center;
+  padding: 0.75rem;
+}
 
 .gym-card__item .raid-proximity-timer-wrapper {
   text-align: left;
   margin: auto;
-  width: 90px; }
-  .gym-card__item .raid-proximity-timer-wrapper svg {
-    margin-right: 5px; }
+  width: 90px;
+}
+.gym-card__item .raid-proximity-timer-wrapper svg {
+  margin-right: 5px;
+}
 
 .gym-card__item .raid-info__wrapper {
-  text-align: left; }
-  .gym-card__item .raid-info__wrapper .raid-gym-name {
-    margin-bottom: 10px; }
+  text-align: left;
+}
+.gym-card__item .raid-info__wrapper .raid-gym-name {
+  margin-bottom: 10px;
+}
+.steps__wrapper {
+  min-height: 200px;
+  box-sizing: border-box;
+}
+.button--actions {
+  justify-content: space-evenly;
+  display: flex;
+}

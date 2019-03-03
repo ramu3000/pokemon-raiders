@@ -1,5 +1,5 @@
 import firebase, { firestore } from "../firebase";
-
+import { navigate } from "@reach/router";
 class Firebase {
   constructor() {
     this.db = firestore;
@@ -22,7 +22,6 @@ class Firebase {
 
     const gymReference = await this.db.collection("gyms").doc(raid.gym);
     // added: time, boss, endtime, gym, level, playerque, startime.
-    console.log("saving raid", raid);
     const raidData = {
       added: raid.registeredTime,
       boss: raid.boss ? raid.boss : null,
@@ -31,7 +30,8 @@ class Firebase {
       level: raid.difficulty,
       playerque: raid.playerque ? raid.playerque : 0,
       starttime: raid.startTime,
-      gymData: raid.gymData
+      gymData: raid.gymData,
+      comments: 0
     };
 
     this.db
@@ -39,6 +39,7 @@ class Firebase {
       .add(raidData)
       .then(function(docRef, cb) {
         console.log("Document written with ID: ", docRef.id);
+        navigate(`/raid/${docRef.id}`);
       })
       .catch(function(error) {
         console.error("Error adding document: ", error);

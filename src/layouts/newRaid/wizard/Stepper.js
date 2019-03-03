@@ -18,10 +18,15 @@ const ButtonTwo = () => {
   box-shadow: 0 4px 7px 0px grey;`;
 };
 
-const Stepper = ({ back, next }) => {
+const Stepper = ({ back, next, hasNext }) => {
   return (
     <div
-      style={{ width: "100%", display: "flex", justifyContent: "space-around" }}
+      style={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "space-around",
+        marginTop: "10px"
+      }}
     >
       <div>
         <Button waves="light" onClick={back}>
@@ -29,7 +34,7 @@ const Stepper = ({ back, next }) => {
         </Button>
       </div>
       <div>
-        <Button waves="light" onClick={next}>
+        <Button waves="light" disabled={!hasNext} onClick={next}>
           <Icon right>navigate_next</Icon>Next
         </Button>
       </div>

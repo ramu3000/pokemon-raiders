@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "react-materialize";
 
 const HasRaidStarted = props => {
   const { hasStarted } = props;
@@ -11,14 +12,14 @@ const HasRaidStarted = props => {
   return (
     <div>
       <h2>Has it started yet?</h2>
-      <p>Please choose yes or no</p>
-      <button data-started="true" onClick={onSave}>
-        Yes
-      </button>
-      <button data-started="false" onClick={onSave}>
-        No
-      </button>
-      <button onClick={props.onBack}>back</button>
+      <div className="button--actions">
+        <Button data-started="true" className="blue" onClick={onSave}>
+          Yes
+        </Button>
+        <Button data-started="false" className="blue" onClick={onSave}>
+          No
+        </Button>
+      </div>
     </div>
   );
 };

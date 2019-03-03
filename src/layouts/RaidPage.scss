@@ -1,0 +1,31 @@
+.gym--triangle {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  border: 1px solid black;
+  margin: 35px auto;
+  transform: rotate(222deg);
+}
+.gym--boss {
+  text-transform: capitalize;
+}
+.chat-wrapper {
+  .AddComment {
+    margin-bottom: 15px;
+  }
+  .gym--actions {
+    display: flex;
+    margin: 20px 0;
+  }
+
+  article {
+    padding: 5px 10px;
+    text-align: left;
+    .comment--author {
+      padding-right: 5px;
+    }
+    .comment--date {
+      padding-right: 10px;
+    }
+  }
+}

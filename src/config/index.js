@@ -1,3 +1,5 @@
+module.exports = require("./prod");
+/*
 if (window.location.href.includes("localhost")) {
   try {
     module.exports = require("./dev");
@@ -7,3 +9,4 @@ if (window.location.href.includes("localhost")) {
 } else {
   module.exports = require("./prod");
 }
+*/

@@ -3,35 +3,52 @@ import { navigate } from "@reach/router";
 import addMinutes from "date-fns/add_minutes";
 
 import db from "../../utils/db";
-import "./NewRaid.css";
+import "./NewRaid.scss";
 import ChooseGym from "./wizard/ChooseGym";
 import ChooseDifficulty from "./wizard/ChooseDifficulty";
 import HasRaidStarted from "./wizard/HasRaidStarted";
 import ChooseStartTime from "./wizard/ChooseStartTime";
+import ChoosePokemon from "./wizard/ChoosePokemon";
 import Stepper from "./wizard/Stepper";
-import { WizardPageFiveChooseRaidBoss } from "../../components/wizard";
 import withGyms from "../../components/containers/WithGyms";
+
+const Pokemons = [
+  { name: "DIALGA", tier: 5 },
+  { name: "POLIWRATH", tier: 4 },
+  { name: "ALOLAN MAROWAK", tier: 4 },
+  { name: "RHYDON", tier: 4 },
+  { name: "TYRANITAR", tier: 4 },
+  { name: "ABSOL", tier: 4 }
+];
 
 class NewRaid extends React.Component {
   state = {
     gyms: [],
     gymTime: 45,
-    step: 1,
+    currentStep: 1,
+    savedStep: 1,
     newRaid: {
       difficulty: 0,
       gym: null,
       active: false,
-      startTime: null
+      startTime: null,
+      endTime: null,
+      boss: ""
     }
   };
   filterDistance = 1000;
   componentDidMount() {}
 
   onBack = () => {
-    if (this.state.step >= 2) {
-      this.setState({ step: this.state.step - 1 });
+    if (this.state.currentStep >= 2) {
+      this.setState({ currentStep: this.state.currentStep - 1 });
     } else {
       navigate("/");
+    }
+  };
+  onNext = () => {
+    if (this.state.currentStep <= 4) {
+      this.setState({ currentStep: this.state.currentStep + 1 });
     }
   };
 
@@ -39,7 +56,6 @@ class NewRaid extends React.Component {
     if (!key && !value) return;
     this.setState({ newRaid: { ...this.state.newRaid, [key]: value } }, () => {
       if (nextStep) {
-        console.log("next step");
         this.goToNextStep();
       } else {
         this.onSaveRaid();
@@ -48,7 +64,12 @@ class NewRaid extends React.Component {
   };
 
   goToNextStep = () => {
-    this.setState({ step: this.state.step + 1 });
+    const savedStep =
+      this.state.currentStep >= this.state.savedStep
+        ? this.state.currentStep + 1
+        : this.state.savedStep;
+
+    this.setState({ currentStep: this.state.currentStep + 1, savedStep });
   };
 
   onSaveRaid = () => {
@@ -59,18 +80,14 @@ class NewRaid extends React.Component {
     );
     const [currentGymData] = gymDataArray;
     if (this.state.newRaid.startTime) {
-      const endTime = addMinutes(
-        this.state.newRaid.startTime,
-        this.state.gymTime
-      );
-      raid = { ...this.state.newRaid, endTime, registeredTime };
+      const startTime = addMinutes(new Date(), this.state.newRaid.startTime);
+      const endTime = addMinutes(startTime, this.state.gymTime);
+      raid = { ...this.state.newRaid, startTime, endTime, registeredTime };
     } else if (this.state.newRaid.endTime) {
-      const startTime = addMinutes(
-        this.state.newRaid.endTime,
-        -this.state.gymTime
-      );
+      const endTime = addMinutes(new Date(), this.state.newRaid.endTime);
+      const startTime = addMinutes(endTime, -this.state.gymTime);
 
-      raid = { ...this.state.newRaid, startTime, registeredTime };
+      raid = { ...this.state.newRaid, endTime, startTime, registeredTime };
     } else {
       console.error("time has not been added");
       return;
@@ -83,7 +100,7 @@ class NewRaid extends React.Component {
   async saveData(raid) {
     try {
       await db.saveRaid(raid);
-      navigate("/");
+      //      navigate("/");
     } catch (err) {
       console.error(err);
     }
@@ -101,44 +118,51 @@ class NewRaid extends React.Component {
   }
 
   render() {
-    const { step } = this.state;
+    const { currentStep } = this.state;
     const gyms = this.filterGymsAndSortByDistance(
       this.props.gyms,
       this.filterDistance
     );
     return (
       <div style={{ width: "100vw", height: "100vh" }}>
-        {step === 1 && (
-          <ChooseGym
-            onBack={this.onBack}
-            gyms={gyms}
-            addGym={this.onValueSave}
-          />
-        )}
-        {step === 2 && (
-          <ChooseDifficulty
-            onBack={this.onBack}
-            difficulty={this.state.newRaid.difficulty}
-            addRating={this.onValueSave}
-          />
-        )}
-        {step === 3 && (
-          <HasRaidStarted onBack={this.onBack} hasStarted={this.onValueSave} />
-        )}
-        {step === 4 && (
-          <ChooseStartTime
-            active={this.state.newRaid.active}
-            setTime={this.setEndTime}
-            saveRaid={this.onValueSave}
-          />
-        )}
-        {step === 5 && this.state.newRaid.active && (
-          <WizardPageFiveChooseRaidBoss
-            bossPool={[]}
-            saveRaid={this.onSaveRaid}
-          />
-        )}
-        <Stepper back={this.onBack} />
+        <div className="steps__wrapper">
+          {currentStep === 1 && (
+            <ChooseGym
+              onBack={this.onBack}
+              gyms={gyms}
+              addGym={this.onValueSave}
+            />
+          )}
+          {currentStep === 2 && (
+            <ChooseDifficulty
+              onBack={this.onBack}
+              difficulty={this.state.newRaid.difficulty}
+              addRating={this.onValueSave}
+            />
+          )}
+          {currentStep === 3 && (
+            <HasRaidStarted
+              onBack={this.onBack}
+              hasStarted={this.onValueSave}
+            />
+          )}
+          {currentStep === 4 && (
+            <ChooseStartTime
+              active={this.state.newRaid.active}
+              saveRaid={this.onValueSave}
+              startTime={this.state.newRaid.startTime}
+              endTime={this.state.newRaid.endTime}
+            />
+          )}
+          {currentStep === 5 && this.state.newRaid.active && (
+            <ChoosePokemon bossPool={Pokemons} saveRaid={this.onValueSave} />
+          )}
+        </div>
+        <Stepper
+          back={this.onBack}
+          next={this.onNext}
+          hasNext={this.state.currentStep < this.state.savedStep}
+        />
       </div>
     );
   }

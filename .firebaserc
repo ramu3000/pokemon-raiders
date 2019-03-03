@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "pokemon-raid-prod"
+    "default": "pokemon-raid-prod",
+    "staging": "pokemongomap-151121"
   }
 }

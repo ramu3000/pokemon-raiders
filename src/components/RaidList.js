@@ -22,6 +22,7 @@ export const RaidList = ({ raids, raidStatus }) => {
       players: raid.playerQue,
       endTime: raid.endTime,
       startTime: raid.startTime,
+      comments: raid.comments,
       coords: {
         latitude: raid.coords.latitude,
         longitude: raid.coords.longitude
@@ -48,6 +49,7 @@ export const RaidList = ({ raids, raidStatus }) => {
             boss={gymRaid.boss}
             endTime={gymRaid.endTime}
             startTime={gymRaid.startTime}
+            comments={gymRaid.comments}
           />
         );
       })}

@@ -1,14 +1,22 @@
 import React from "react";
 import { Button } from "react-materialize";
 import { Link, navigate } from "@reach/router";
-import { firestore } from "../firebase";
-import { collectIdsAndDocsWithDate, collectRaidInfoPage } from "../utils";
+import firebase, { firestore } from "../firebase";
+import {
+  collectIdsAndDocsWithDate,
+  collectRaidInfoPage,
+  addDistanceToGyms,
+  getRandomInt
+} from "../utils";
+import { LocationContext } from "../components/providers/LocationProvider";
 import Comments from "../components/Comments";
-
+import "./RaidPage.scss";
 class RaidPage extends React.Component {
   state = {
     raid: null,
-    comments: []
+    comments: [],
+    uid: null,
+    interested: false
   };
   get raidId() {
     return this.props.id;
@@ -31,7 +39,7 @@ class RaidPage extends React.Component {
       this.setState({ raid });
     });
     this.unsubscribeFromComments = this.commentsRef
-      .orderBy("date", "desc")
+      .orderBy("timestamp", "desc")
       .onSnapshot(snapshot => {
         const comments = snapshot.docs.map(collectIdsAndDocsWithDate);
         this.setState({ comments });
@@ -47,11 +55,22 @@ class RaidPage extends React.Component {
     //TODO USERNAME
     const user = "Anymous";
     const date = new Date();
-    this.commentsRef.add({ ...comment, user, date });
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+    this.commentsRef.add({ ...comment, user, date, timestamp });
   };
 
+  renderDistance(location) {
+    if (!location) return <span>where are you at?</span>;
+    if (location) {
+      const { latitude, longitude } = location;
+      // const a = addDistanceToGyms(this.state.raid, {
+      //   latitude,
+      //   longitude
+      // });
+    }
+  }
+
   render() {
-    console.log("raid", this.state.raid);
     if (!this.state.raid) {
       return null;
     }
@@ -59,16 +78,24 @@ class RaidPage extends React.Component {
 
     return (
       <div>
-        <Button onClick={() => navigate("/")}>Back</Button>
+        <Button onClick={() => navigate("/")}>Home</Button>
 
         <div className="gym graphics">
           <div className="gym--triangle" />
-          <div className="gym--boss">Pokemon: {boss || "not known"} </div>
-          <div className="gym--distance">Distance: </div>
+          <div className="gym--boss"> {boss || "Pokemon not known"} </div>
+          <LocationContext.Consumer>
+            {context => (
+              <div className="gym--distance">
+                Distance: {this.renderDistance(context)}{" "}
+              </div>
+            )}
+          </LocationContext.Consumer>
         </div>
 
         <div>Ending time: </div>
-        <div>Help </div>
+        <div className="gym--actions">
+          <Button>interested</Button>
+        </div>
         <div className="chat-wrapper">
           <Comments
             comments={this.state.comments}

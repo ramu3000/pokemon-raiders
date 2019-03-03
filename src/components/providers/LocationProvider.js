@@ -9,9 +9,17 @@ class LocationProvider extends Component {
   componentDidMount = () => {};
 
   render() {
-    const { coords, children } = this.props;
+    console.log("locationprovider", this.props);
+    const {
+      coords,
+      children,
+      positionError,
+      isGeolocationAvailable
+    } = this.props;
     return (
-      <LocationContext.Provider value={coords}>
+      <LocationContext.Provider
+        value={{ coords, positionError, isGeolocationAvailable }}
+      >
         {children}
       </LocationContext.Provider>
     );

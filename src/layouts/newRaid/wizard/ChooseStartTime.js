@@ -1,22 +1,29 @@
 import React from "react";
 import addMinutes from "date-fns/add_minutes";
+import { Button } from "react-materialize";
 
 class ChooseStartTime extends React.Component {
   state = {
-    time: null
+    time: ""
   };
+
+  componentDidMount() {
+    const { endTime, startTime } = this.props;
+    if (startTime) {
+      this.setState({ time: startTime });
+    } else if (endTime) {
+      this.setState({ time: endTime });
+    }
+  }
 
   onSave = () => {
     const { active, saveRaid } = this.props;
     const { time } = this.state;
 
     if (active) {
-      const endTime = addMinutes(new Date(), time);
-      return saveRaid({ key: "endTime", value: endTime });
+      return saveRaid({ key: "endTime", value: time });
     }
-
-    const startTime = addMinutes(new Date(), time);
-    return saveRaid({ key: "startTime", value: startTime }, false);
+    return saveRaid({ key: "startTime", value: time }, false);
   };
 
   handeTimeChange = event => {
@@ -45,10 +52,16 @@ class ChooseStartTime extends React.Component {
     return (
       <div>
         {this.renderStartedText()}
-        <input onChange={this.handeTimeChange} type="number" min="1" max="90" />
-        <button className="green" onClick={this.onSave}>
+        <input
+          onChange={this.handeTimeChange}
+          value={this.state.time}
+          type="number"
+          min="1"
+          max="90"
+        />
+        <Button className="blue" onClick={this.onSave}>
           Continue
-        </button>
+        </Button>
       </div>
     );
   }

@@ -50,6 +50,7 @@ export const collectRaidInfo = doc => {
     gym: { id: gym },
     level,
     playerQue,
+    comments,
     gymData: { name: gymName, geohash, coords }
   } = data;
   return {
@@ -62,7 +63,8 @@ export const collectRaidInfo = doc => {
     playerQue,
     gymName,
     geohash,
-    coords
+    coords,
+    comments
   };
 };
 export const collectRaidInfoPage = doc => {
@@ -163,5 +165,29 @@ const validateLocation = function(location) {
 
   if (typeof error !== "undefined") {
     throw new Error("Invalid GeoFire location '" + location + "': " + error);
+  }
+};
+
+export const getRandomInt = max => {
+  return Math.floor(Math.random() * Math.floor(max));
+};
+
+export const handleUserId = () => {
+  if (localStorage.getItem("uid")) {
+    return localStorage.getItem("uid");
+  } else {
+    const randomId = getRandomInt(99999).toString();
+    localStorage.setItem("uid", randomId);
+    return randomId;
+  }
+};
+
+export const handleChatName = () => {
+  if (localStorage.getItem("username")) {
+    return localStorage.getItem("uid");
+  } else {
+    const randomId = getRandomInt(99999).toString();
+    localStorage.setItem("username", randomId);
+    return randomId;
   }
 };

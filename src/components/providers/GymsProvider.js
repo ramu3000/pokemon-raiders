@@ -28,8 +28,8 @@ class GymsProvider extends Component {
   }
   componentDidMount = () => {};
   componentDidUpdate() {
-    if (this.props.context && this.state.loading) {
-      const { latitude, longitude } = this.props.context;
+    if (this.props.context.coords && this.state.loading) {
+      const { latitude, longitude } = this.props.context.coords;
       const geohash = encodeGeohash(
         [latitude, longitude],
         this.geohashProximity
@@ -56,8 +56,8 @@ class GymsProvider extends Component {
     let { gyms } = this.state;
     const { children } = this.props;
 
-    if (this.props.context) {
-      const { latitude, longitude } = this.props.context;
+    if (this.props.context.coords) {
+      const { latitude, longitude } = this.props.context.coords;
       gyms = addDistanceToGyms(gyms, {
         latitude,
         longitude

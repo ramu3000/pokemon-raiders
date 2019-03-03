@@ -108,7 +108,7 @@ h2 {
   margin-bottom: 45px;
   width: 90%;
   position: relative;
-
+  padding-bottom: 20px;
   & > div {
     width: 50%;
   }
@@ -157,35 +157,6 @@ h2 {
 
 .App-intro {
   font-size: large;
-}
-.gym--triangle {
-  width: 80px;
-  height: 80px;
-  position: relative;
-  border: 1px solid black;
-  margin: 35px auto;
-  transform: rotate(222deg);
-}
-.gym--boss {
-  position: relative;
-  right: 20px;
-  text-align: right;
-  top: -123px;
-}
-.chat-wrapper {
-  .AddComment {
-    margin-bottom: 15px;
-  }
-  article {
-    padding: 5px 10px;
-    text-align: left;
-    .comment--author {
-      padding-right: 5px;
-    }
-    .comment--date {
-      padding-right: 10px;
-    }
-  }
 }
 
 @keyframes App-logo-spin {

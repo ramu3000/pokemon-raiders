@@ -1,19 +1,23 @@
 import React from "react";
 import Rating from "react-rating";
+import { Icon } from "react-materialize";
 
 const ChooseDifficulty = props => {
   const { onBack, addRating, difficulty } = props;
 
   const addDifficulty = difficulty => {
-    console.log(difficulty);
     addRating({ key: "difficulty", value: difficulty });
   };
 
   return (
-    <div style={{ marginBottom: "20px" }}>
+    <div>
       <h2>Boss difficulty</h2>
-      <p>Add boss difficulty</p>
-      <Rating onChange={addDifficulty} initialRating={difficulty} />
+      <Rating
+        onChange={addDifficulty}
+        initialRating={difficulty}
+        emptySymbol={<Icon medium>star_border</Icon>}
+        fullSymbol={<Icon medium>star</Icon>}
+      />
     </div>
   );
 };

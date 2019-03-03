@@ -2,7 +2,7 @@ import React from "react";
 import Countdown from "react-countdown-now";
 import { Link } from "@reach/router";
 import { formatTimesSTamp, isFuture } from "../../utils/dateFormatting";
-
+import { Icon } from "react-materialize";
 import ShowDistance from "../common/ShowDistance";
 
 import raidImage from "../../assets/images/raid.jpg";
@@ -15,7 +15,8 @@ const card = ({
   players,
   boss,
   endTime,
-  startTime
+  startTime,
+  comments
 }) => {
   if (!name) {
     //todo proptypes
@@ -72,8 +73,7 @@ const card = ({
       </div>
       <div className="raid-info__wrapper">
         <div className="raid-info-basic">
-          <p className="raid-gym-name">Gym name: {name || "betoniporsaat"} </p>
-
+          <p className="raid-gym-name">Gym: {name || "betoniporsaat"} </p>
           <p className="raid-people-rating">
             {boss || "boss not known"} <br />
             level: {level || 0}{" "}
@@ -81,7 +81,16 @@ const card = ({
         </div>
         <div>
           <p>
-            There is <b>{players || 0}</b> people waiting
+            <Icon style={{ color: "white" }}>people</Icon>{" "}
+            <b style={{ verticalAlign: "super", paddingLeft: "3px" }}>
+              {players || 0}
+            </b>
+          </p>
+          <p>
+            <Icon style={{ color: "white" }}>chat</Icon>
+            <span style={{ verticalAlign: "super", paddingLeft: "3px" }}>
+              {comments || 0}
+            </span>
           </p>
         </div>
       </div>
