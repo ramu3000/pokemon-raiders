@@ -29,18 +29,57 @@ class RaidProvider extends Component {
       );
       const endTimeAfterRange = addMinutes(new Date(), 120);
       const endTimeBeforeRange = addMinutes(new Date(), -60);
+      if (this.unsubscribeFromRaidsFirestore) {
+        this.unsubscribeFromRaidsFirestore();
+      }
       this.unsubscribeFromRaidsFirestore = this.raidsRef
         .where("endtime", "<=", endTimeAfterRange)
         .where("endtime", ">=", endTimeBeforeRange)
         .orderBy("endtime", "desc")
         .limit(10)
         .onSnapshot(snapshot => {
-          const raids = snapshot.docs.map(collectRaidInfo);
-          this.setState({
-            raids,
-            loading: false,
-            playerLastQueryLocation: { latitude, longitude }
+          const docs = snapshot.docChanges();
+          console.log("retrieved raids:", snapshot.size);
+          let currentRaids = this.state.raids;
+          const raidsChanges = docs.map(change => {
+            switch (change.type) {
+              case "added":
+                console.log("added raid:", change);
+                return collectRaidInfo(change.doc);
+              case "modified":
+                //Better optimize this merging updates
+                currentRaids = currentRaids.filter(
+                  doc => doc.id !== change.doc.id
+                );
+                return collectRaidInfo(change.doc);
+              case "removed":
+                //optimize removal
+                currentRaids = currentRaids.filter(
+                  doc => doc.id !== change.doc.id
+                );
+                return null;
+              default:
+                console.error("unhandled doc.type in raids changd");
+                return undefined;
+            }
           });
+          const newRaids = [...raidsChanges, ...currentRaids];
+          console.log("newRaids", newRaids);
+          if (this.state.loading) {
+            this.setState({
+              raids: newRaids,
+              loading: false,
+              playerLastQueryLocation: { latitude, longitude }
+            });
+          } else {
+            this.setState({ raids: newRaids });
+          }
+          const raids = snapshot.docs.map(collectRaidInfo);
+          // this.setState({
+          //   raids,
+          //   loading: false,
+          //   playerLastQueryLocation: { latitude, longitude }
+          // });
         });
     }
   }

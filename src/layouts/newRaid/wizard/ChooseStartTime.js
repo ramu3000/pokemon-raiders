@@ -1,6 +1,5 @@
 import React from "react";
-import addMinutes from "date-fns/add_minutes";
-import { Button } from "react-materialize";
+import { Button, Input } from "@material-ui/core";
 
 class ChooseStartTime extends React.Component {
   state = {
@@ -48,20 +47,35 @@ class ChooseStartTime extends React.Component {
     );
   }
 
+  renderSaveButton() {
+    const { active } = this.props;
+    if (active) {
+      return (
+        <Button variant="contained" color="primary" onClick={this.onSave}>
+          Continue
+        </Button>
+      );
+    }
+
+    return (
+      <Button variant="contained" onClick={this.onSave}>
+        Save Raid
+      </Button>
+    );
+  }
+
   render() {
     return (
       <div>
         {this.renderStartedText()}
-        <input
+        <Input
           onChange={this.handeTimeChange}
           value={this.state.time}
           type="number"
           min="1"
           max="90"
         />
-        <Button className="blue" onClick={this.onSave}>
-          Continue
-        </Button>
+        <div className="button__wrapper">{this.renderSaveButton()}</div>
       </div>
     );
   }

@@ -93,6 +93,18 @@ table {
 }
 
 /** RESET END */
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Montserrat", sans-serif;
+}
+span,
+p,
+a {
+  font-family: "Roboto", sans-serif;
+}
 
 h2 {
   font-size: 2em;
@@ -119,13 +131,14 @@ h2 {
     right: 10px;
     margin-bottom: -17px;
     width: 100px;
-    height: 40px;
+    height: 30px;
     background-color: steelblue;
     border: none;
     border-radius: 4px;
     box-shadow: 0px 5px 7px 0px #a0a0a0;
     padding-top: 11px;
     color: white;
+    text-decoration: none;
   }
 
   .raid-logo img {
@@ -133,10 +146,17 @@ h2 {
     height: auto;
   }
 }
-
+.countdown-timer--txt {
+  font-variant-numeric: tabular-nums;
+}
+.body {
+  /* Disables pull-to-refresh but allows overscroll glow effects. */
+  overscroll-behavior-y: contain;
+}
 .App {
   text-align: center;
   max-width: 400px;
+  /* prohibits autorefresh in pulling down refresh */
 }
 
 .App-logo {

@@ -73,20 +73,24 @@ class NewRaid extends React.Component {
   };
 
   onSaveRaid = () => {
+    const {
+      active,
+      startTime: startTimeInMinutes,
+      endTime: endTimeInMinutes
+    } = this.state.newRaid;
     const registeredTime = new Date();
     let raid = {};
     const gymDataArray = this.props.gyms.filter(
       gym => gym.id === this.state.newRaid.gym
     );
     const [currentGymData] = gymDataArray;
-    if (this.state.newRaid.startTime) {
-      const startTime = addMinutes(new Date(), this.state.newRaid.startTime);
+    if (!active) {
+      const startTime = addMinutes(new Date(), startTimeInMinutes);
       const endTime = addMinutes(startTime, this.state.gymTime);
       raid = { ...this.state.newRaid, startTime, endTime, registeredTime };
-    } else if (this.state.newRaid.endTime) {
-      const endTime = addMinutes(new Date(), this.state.newRaid.endTime);
+    } else if (active) {
+      const endTime = addMinutes(new Date(), endTimeInMinutes);
       const startTime = addMinutes(endTime, -this.state.gymTime);
-
       raid = { ...this.state.newRaid, endTime, startTime, registeredTime };
     } else {
       console.error("time has not been added");
@@ -100,7 +104,6 @@ class NewRaid extends React.Component {
   async saveData(raid) {
     try {
       await db.saveRaid(raid);
-      //      navigate("/");
     } catch (err) {
       console.error(err);
     }

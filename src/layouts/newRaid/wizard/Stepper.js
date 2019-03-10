@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Icon } from "react-materialize";
+import { Icon, Button } from "@material-ui/core";
 
 const Wrapper = () => {
   const css = `
@@ -29,13 +29,18 @@ const Stepper = ({ back, next, hasNext }) => {
       }}
     >
       <div>
-        <Button waves="light" onClick={back}>
-          <Icon left>navigate_before</Icon>Back
+        <Button variant="contained" color="secondary" onClick={back}>
+          <Icon>navigate_before</Icon>Back
         </Button>
       </div>
       <div>
-        <Button waves="light" disabled={!hasNext} onClick={next}>
-          <Icon right>navigate_next</Icon>Next
+        <Button
+          variant="contained"
+          color="secondary"
+          disabled={!hasNext}
+          onClick={next}
+        >
+          Next<Icon>navigate_next</Icon>
         </Button>
       </div>
     </div>

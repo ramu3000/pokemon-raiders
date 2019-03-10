@@ -1,13 +1,10 @@
 import React from "react";
-import { Button } from "react-materialize";
+import { Button, Input } from "@material-ui/core";
 import { Link, navigate } from "@reach/router";
+
 import firebase, { firestore } from "../firebase";
-import {
-  collectIdsAndDocsWithDate,
-  collectRaidInfoPage,
-  addDistanceToGyms,
-  getRandomInt
-} from "../utils";
+import { collectIdsAndDocsWithDate, collectRaidInfoPage } from "../utils";
+import { getUserChatName } from "../utils/localstorage";
 import { LocationContext } from "../components/providers/LocationProvider";
 import Comments from "../components/Comments";
 import "./RaidPage.scss";
@@ -16,6 +13,7 @@ class RaidPage extends React.Component {
     raid: null,
     comments: [],
     uid: null,
+    user: null,
     interested: false
   };
   get raidId() {
@@ -41,7 +39,22 @@ class RaidPage extends React.Component {
     this.unsubscribeFromComments = this.commentsRef
       .orderBy("timestamp", "desc")
       .onSnapshot(snapshot => {
-        const comments = snapshot.docs.map(collectIdsAndDocsWithDate);
+        const changes = snapshot.docChanges();
+        const comments = [...this.state.comments];
+        changes.forEach(change => {
+          switch (change.type) {
+            case "added":
+              comments.splice(
+                change.newIndex,
+                0,
+                collectIdsAndDocsWithDate(change.doc)
+              );
+              break;
+
+            default:
+              break;
+          }
+        });
         this.setState({ comments });
       });
   }
@@ -51,12 +64,17 @@ class RaidPage extends React.Component {
     this.unsubscribeFromPost();
   }
 
+  getUser() {
+    const user = getUserChatName();
+    this.setState({ user });
+    return user;
+  }
+
   createComment = comment => {
-    //TODO USERNAME
-    const user = "Anymous";
-    const date = new Date();
+    const user = this.state.user ? this.state.user : this.getUser();
+    console.log("user: " + user);
     const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-    this.commentsRef.add({ ...comment, user, date, timestamp });
+    this.commentsRef.add({ ...comment, user, timestamp });
   };
 
   renderDistance(location) {
@@ -78,7 +96,13 @@ class RaidPage extends React.Component {
 
     return (
       <div>
-        <Button onClick={() => navigate("/")}>Home</Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => navigate("/")}
+        >
+          Home
+        </Button>
 
         <div className="gym graphics">
           <div className="gym--triangle" />
@@ -94,9 +118,16 @@ class RaidPage extends React.Component {
 
         <div>Ending time: </div>
         <div className="gym--actions">
-          <Button>interested</Button>
+          <Button variant="contained">interested</Button>
         </div>
         <div className="chat-wrapper">
+          <SmallModalInput
+            save={() => alert("saving")}
+            question="add your display name"
+            buttonTxt="add name"
+            buttonSaveTxt="Save"
+          />
+
           <Comments
             comments={this.state.comments}
             onCreate={this.createComment}
@@ -106,4 +137,21 @@ class RaidPage extends React.Component {
     );
   }
 }
+
+const SmallModalInput = ({ save, question, buttonTxt, buttonSaveTxt }) => {
+  return (
+    <div
+      style={{ display: "none" }}
+      header="trololo"
+      trigger={<Button waves="light">{buttonTxt}</Button>}
+    >
+      <p>{question}</p>
+      <Input type="txt" />
+      <Button variant="contained" onClick={save}>
+        {buttonSaveTxt}
+      </Button>
+    </div>
+  );
+};
+
 export default RaidPage;

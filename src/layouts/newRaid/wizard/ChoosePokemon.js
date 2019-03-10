@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "react-materialize";
+import Button from "@material-ui/core/Button";
 import pokemonimage from "../../../assets/images/96.png";
 import "./wizard.scss";
 
@@ -42,7 +42,7 @@ class ChoosePokemon extends React.Component {
             />
           ))}
         </ul>
-        <Button className="green" onClick={this.onSave}>
+        <Button variant="contained" color="green" onClick={this.onSave}>
           Save raid
         </Button>
       </div>

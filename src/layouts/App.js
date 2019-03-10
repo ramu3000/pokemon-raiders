@@ -6,6 +6,7 @@ import Navigation from "../components/Navigation";
 import LandingPage from "./home/";
 import NewRaid from "./newRaid/";
 import RaidPage from "./RaidPage";
+import MyProfile from "./my-profile";
 import Queries from "./test/Queries";
 
 class App extends Component {
@@ -14,6 +15,7 @@ class App extends Component {
       <div className="App">
         <Router>
           <LandingPage path="/" />
+          <MyProfile path="/my-profile" />
           <NewRaid path="new-raid" />
           <RaidPage path="raid/:id" />
           <Queries path="test/queries" />

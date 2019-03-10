@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  /* chrome autorefresh on pull down */
+  overscroll-behavior: none;
 }
 
 .App-logo {

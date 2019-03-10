@@ -38,6 +38,7 @@ class GymsProvider extends Component {
         .where("geohash", ">=", geohash)
         .orderBy("geohash")
         .onSnapshot(snapshot => {
+          console.log("retrieved gyms:", snapshot.size);
           const gyms = snapshot.docs.map(collectIdsAndDocs);
           this.setState({
             gyms,

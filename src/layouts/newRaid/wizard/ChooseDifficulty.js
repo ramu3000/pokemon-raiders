@@ -1,6 +1,6 @@
 import React from "react";
 import Rating from "react-rating";
-import { Icon } from "react-materialize";
+import Icon from "@material-ui/core/Icon";
 
 const ChooseDifficulty = props => {
   const { onBack, addRating, difficulty } = props;
@@ -15,8 +15,8 @@ const ChooseDifficulty = props => {
       <Rating
         onChange={addDifficulty}
         initialRating={difficulty}
-        emptySymbol={<Icon medium>star_border</Icon>}
-        fullSymbol={<Icon medium>star</Icon>}
+        emptySymbol={<Icon fontSize="large">star_border</Icon>}
+        fullSymbol={<Icon fontSize="large">star</Icon>}
       />
     </div>
   );

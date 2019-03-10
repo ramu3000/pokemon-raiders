@@ -1,11 +1,17 @@
 import React from "react";
-import { Button } from "react-materialize";
+import Button from "@material-ui/core/Button";
 
 const HasRaidStarted = props => {
   const { hasStarted } = props;
 
   const onSave = event => {
-    const raidStarted = event.target.dataset.started === "true";
+    let raidStarted = null;
+    event.persist();
+    if (event.target.dataset.hasOwnProperty("started")) {
+      raidStarted = event.target.dataset.started === "true";
+    } else {
+      raidStarted = event.target.parentElement.dataset.started === "true";
+    }
     hasStarted({ key: "active", value: raidStarted });
   };
 
@@ -13,10 +19,22 @@ const HasRaidStarted = props => {
     <div>
       <h2>Has it started yet?</h2>
       <div className="button--actions">
-        <Button data-started="true" className="blue" onClick={onSave}>
+        <Button
+          variant="contained"
+          color="primary"
+          data-started="true"
+          className="blue"
+          onClick={onSave}
+        >
           Yes
         </Button>
-        <Button data-started="false" className="blue" onClick={onSave}>
+        <Button
+          variant="contained"
+          color="primary"
+          data-started="false"
+          className="blue"
+          onClick={onSave}
+        >
           No
         </Button>
       </div>

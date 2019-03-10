@@ -1,5 +1,5 @@
 import React from "react";
-import "./Navigation.css";
+import "./Navigation.scss";
 import { Link, navigate } from "@reach/router";
 import { Icon } from "react-materialize";
 class Navigation extends React.Component {
@@ -15,6 +15,10 @@ class Navigation extends React.Component {
     this.onNavigationToggle();
     navigate("/new-raid");
   };
+  goToSettings = () => {
+    this.onNavigationToggle();
+    navigate("/my-profile");
+  };
   render() {
     return (
       <div
@@ -22,9 +26,20 @@ class Navigation extends React.Component {
           "navigation-wrapper" + (this.state.navButtonOpen ? " active" : "")
         }
       >
-        <button onClick={this.goToNewRaid} className="navigation-button-raid">
+        <button
+          onClick={this.goToNewRaid}
+          className="subnav__button navigation-button-raid"
+        >
           <span style={{ color: "white" }} role="img" aria-label="new raid">
             <Icon>note_add</Icon>
+          </span>
+        </button>
+        <button
+          onClick={this.goToSettings}
+          className="subnav__button navigation-button-settings"
+        >
+          <span style={{ color: "white" }} role="img" aria-label="new raid">
+            <Icon>settings</Icon>
           </span>
         </button>
         <div className="navigation-button">

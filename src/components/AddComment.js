@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Button } from "react-materialize";
+import { Button, Input, Icon } from "@material-ui/core";
+
 class AddComment extends Component {
   state = { content: "" };
 
@@ -18,7 +19,8 @@ class AddComment extends Component {
     const { content } = this.state;
     return (
       <form onSubmit={this.handleSubmit} className="AddComment">
-        <input
+        <Input
+          fullWidth
           type="text"
           name="content"
           placeholder="Comment"
@@ -26,11 +28,13 @@ class AddComment extends Component {
           onChange={this.handleChange}
         />
         <Button
+          variant="contained"
+          color="secondary"
           onClick={this.handleSubmit}
           disabled={this.state.content.length < 2}
         >
-          <i className="material-icons right">send</i>
           Create Comment
+          <Icon>send</Icon>
         </Button>
       </form>
     );

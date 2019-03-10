@@ -10,8 +10,13 @@
   text-transform: capitalize;
 }
 .chat-wrapper {
+  margin-top: 15px;
   .AddComment {
     margin-bottom: 15px;
+
+    button {
+      margin-top: 5px;
+    }
   }
   .gym--actions {
     display: flex;
@@ -23,9 +28,11 @@
     text-align: left;
     .comment--author {
       padding-right: 5px;
+      font-weight: 600;
     }
     .comment--date {
       padding-right: 10px;
+      color: #969696;
     }
   }
 }

@@ -37,7 +37,7 @@ const card = ({
               return <Ending />;
             } else {
               return (
-                <span>
+                <span className="countdown-timer--txt">
                   <i className="fas fa-clock" />
                   {minutes}:{seconds}
                 </span>
