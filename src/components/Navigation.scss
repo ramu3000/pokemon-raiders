@@ -58,6 +58,12 @@ $buttonSize: 55px;
     background-color: #395063;
     border-radius: 40px;
   }
+  .navigation-button-home {
+    width: $buttonSize - 5px;
+    height: $buttonSize - 5px;
+    background-color: #395063;
+    border-radius: 40px;
+  }
   &.active {
     .navigation-button {
       background-color: white;
@@ -69,6 +75,9 @@ $buttonSize: 55px;
     }
     .navigation-button-raid {
       transform: translateX(-50px) translateY(-45px);
+    }
+    .navigation-button-home {
+      transform: translateX(0px) translateY(-65px);
     }
     .navigation-button-settings {
       transform: translateX(50px) translateY(-45px);

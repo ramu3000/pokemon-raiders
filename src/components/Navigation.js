@@ -2,6 +2,15 @@ import React from "react";
 import "./Navigation.scss";
 import { Link, navigate } from "@reach/router";
 import { Icon } from "react-materialize";
+
+const NewRaidButton = props => (
+  <button {...props} className="subnav__button navigation-button-raid">
+    <span style={{ color: "white" }} role="img" aria-label="new raid">
+      <Icon>note_add</Icon>
+    </span>
+  </button>
+);
+
 class Navigation extends React.Component {
   state = {
     navButtonOpen: false
@@ -10,6 +19,10 @@ class Navigation extends React.Component {
 
   onNavigationToggle = event => {
     this.setState({ navButtonOpen: !this.state.navButtonOpen });
+  };
+  goHome = () => {
+    this.onNavigationToggle();
+    navigate("/");
   };
   goToNewRaid = () => {
     this.onNavigationToggle();
@@ -26,12 +39,13 @@ class Navigation extends React.Component {
           "navigation-wrapper" + (this.state.navButtonOpen ? " active" : "")
         }
       >
+        <NewRaidButton onClick={this.goToNewRaid} />
         <button
-          onClick={this.goToNewRaid}
-          className="subnav__button navigation-button-raid"
+          onClick={this.goHome}
+          className="subnav__button navigation-button-home"
         >
           <span style={{ color: "white" }} role="img" aria-label="new raid">
-            <Icon>note_add</Icon>
+            <Icon>home</Icon>
           </span>
         </button>
         <button
