@@ -2,7 +2,7 @@ import React from "react";
 import { navigate } from "@reach/router";
 import addMinutes from "date-fns/add_minutes";
 
-import db from "../../utils/db";
+import db from "../../../utils/db";
 import "./NewRaid.scss";
 import ChooseGym from "./wizard/ChooseGym";
 import ChooseDifficulty from "./wizard/ChooseDifficulty";
@@ -10,7 +10,7 @@ import HasRaidStarted from "./wizard/HasRaidStarted";
 import ChooseStartTime from "./wizard/ChooseStartTime";
 import ChoosePokemon from "./wizard/ChoosePokemon";
 import Stepper from "./wizard/Stepper";
-import withGyms from "../../components/containers/WithGyms";
+import withGyms from "../../containers/WithGyms";
 
 const Pokemons = [
   { name: "DIALGA", tier: 5 },
@@ -127,7 +127,7 @@ class NewRaid extends React.Component {
       this.filterDistance
     );
     return (
-      <div style={{ width: "100vw", height: "100vh" }}>
+      <div>
         <div className="steps__wrapper">
           {currentStep === 1 && (
             <ChooseGym

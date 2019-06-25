@@ -1,5 +1,5 @@
 import React from "react";
-import { GymsContext } from "../providers/GymsProvider";
+import { GymsContext } from "../../providers/GymsProvider";
 
 const getDisplayName = WrappedComponent => {
   return WrappedComponent.displayName || WrappedComponent.name || "Component";

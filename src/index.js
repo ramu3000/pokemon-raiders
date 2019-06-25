@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./layouts/App";
+import App from "./components/layouts/App";
 import * as serviceWorker from "./serviceWorker";
-import GymsProvider from "./components/providers/GymsProvider";
-import RaidsProvider from "./components/providers/RaidsProvider";
-import LocationProvider from "./components/providers/LocationProvider";
+import GymsProvider from "./providers/GymsProvider";
+import RaidsProvider from "./providers/RaidsProvider";
+import LocationProvider from "./providers/LocationProvider";
 
 ReactDOM.render(
   <LocationProvider>

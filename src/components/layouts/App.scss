@@ -71,6 +71,7 @@ section {
 }
 body {
   line-height: 1;
+  background: #fbfbfb;
 }
 ol,
 ul {
@@ -112,8 +113,9 @@ h2 {
 }
 
 .raid-container li {
+  background: white;
   border: 1px solid black;
-  box-shadow: 1px 6px 2px #a0a0a0;
+  box-shadow: 1px 3px 2px #a0a0a0;
   display: flex;
   min-height: 120px;
   margin: 0 auto;
@@ -152,11 +154,13 @@ h2 {
 .body {
   /* Disables pull-to-refresh but allows overscroll glow effects. */
   overscroll-behavior-y: contain;
+  background: #fbfbfb;
 }
 .App {
   text-align: center;
   max-width: 400px;
-  /* prohibits autorefresh in pulling down refresh */
+  margin: 0 auto;
+  margin-bottom: 30px;
 }
 
 .App-logo {

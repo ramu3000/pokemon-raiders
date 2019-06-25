@@ -1,6 +1,6 @@
 import React from "react";
 
-import GymCard from "../../../components/common/GymCard";
+import GymCard from "../../../common/GymCard";
 
 const ChooseGym = props => {
   const onGymSave = event => {

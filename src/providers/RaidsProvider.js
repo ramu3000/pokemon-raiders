@@ -1,8 +1,8 @@
 import React, { Component, createContext } from "react";
-import { firestore } from "../../firebase";
-import { collectRaidInfo, encodeGeohash, addDistanceToGyms } from "../../utils";
-import { LocationContext } from "../providers/LocationProvider";
-import { ErrorMessage } from "../common/error/location";
+import { firestore } from "../firebase";
+import { collectRaidInfo, encodeGeohash, addDistanceToGyms } from "../utils";
+import { LocationContext } from "./LocationProvider";
+import { ErrorMessage } from "../components/common/error/location";
 import addMinutes from "date-fns/add_minutes";
 export const RaidsContext = createContext();
 

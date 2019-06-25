@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
-import { RaidList } from "./../../components/RaidList";
-import { RaidsContext } from "../../components/providers/RaidsProvider";
+import { RaidList } from "./../../RaidList";
+import { RaidsContext } from "../../../providers/RaidsProvider";
 
 class LandingPage extends Component {
   render() {

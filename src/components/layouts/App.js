@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Router, Link } from "@reach/router";
 import "./App.scss";
-import Navigation from "../components/Navigation";
+import Navigation from "../Navigation";
 
 import LandingPage from "./home/";
 import NewRaid from "./newRaid/";

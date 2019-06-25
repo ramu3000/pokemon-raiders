@@ -1,12 +1,8 @@
 import React, { Component, createContext } from "react";
 
-import { firestore } from "../../firebase";
-import {
-  collectIdsAndDocs,
-  encodeGeohash,
-  addDistanceToGyms
-} from "../../utils";
-import { LocationContext } from "../providers/LocationProvider";
+import { firestore } from "../firebase";
+import { collectIdsAndDocs, encodeGeohash, addDistanceToGyms } from "../utils";
+import { LocationContext } from "./LocationProvider";
 
 export const GymsContext = createContext();
 

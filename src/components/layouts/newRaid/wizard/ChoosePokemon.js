@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import pokemonimage from "../../../assets/images/96.png";
+import pokemonimage from "../../../../assets/images/96.png";
 import "./wizard.scss";
 
 const Pokemon = ({ pokemon, tier, choose, chosen }) => {

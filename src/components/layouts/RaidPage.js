@@ -2,11 +2,11 @@ import React from "react";
 import { Button, Input } from "@material-ui/core";
 import { Link, navigate } from "@reach/router";
 
-import firebase, { firestore } from "../firebase";
-import { collectIdsAndDocsWithDate, collectRaidInfoPage } from "../utils";
-import { getUserChatName } from "../utils/localstorage";
-import { LocationContext } from "../components/providers/LocationProvider";
-import Comments from "../components/Comments";
+import firebase, { firestore } from "../../firebase";
+import { collectIdsAndDocsWithDate, collectRaidInfoPage } from "../../utils";
+import { getUserChatName } from "../../utils/localstorage";
+import { LocationContext } from "../../providers/LocationProvider";
+import Comments from "../Comments";
 import "./RaidPage.scss";
 class RaidPage extends React.Component {
   state = {
